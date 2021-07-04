@@ -5,24 +5,26 @@
 }
 
 <h2>Index</h2>
+@Html.ActionLink("Agregar", "Agregar", "Marca",new { @class = "btn btn-primary" })
+
 
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>@Html.LabelFor(p=>Model[0].iidmarca)</th>
+            <th>@Html.LabelFor(p => Model[0].iidmarca)</th>
             <th>@Html.LabelFor(p => Model[0].nombre)</th>
-            <th>@Html.LabelFor(p => Model[0].descripcion)</th>          
+            <th>@Html.LabelFor(p => Model[0].descripcion)</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            
-            <td>@item.iidmarca</td>
-            <td>@item.nombre</td>
-            <td>@item.descripcion</td>
-         </tr>
+            <tr>
+
+                <td>@item.iidmarca</td>
+                <td>@item.nombre</td>
+                <td>@item.descripcion</td>
+            </tr>
         }
     </tbody>
 </table>

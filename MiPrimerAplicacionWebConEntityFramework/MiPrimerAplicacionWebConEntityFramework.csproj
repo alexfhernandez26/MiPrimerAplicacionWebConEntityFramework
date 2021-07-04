@@ -274,6 +274,7 @@
     <Content Include="Views\Marca\Index.cshtml" />
     <Content Include="Views\Sucursal\Index.cshtml" />
     <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Marca\Agregar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
