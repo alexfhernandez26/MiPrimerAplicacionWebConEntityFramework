@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -188,6 +189,7 @@
     <Compile Include="Models\Sucursal.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SucursalCLS.cs" />
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
@@ -268,6 +270,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Marca\Index.cshtml" />
+    <Content Include="Views\Sucursal\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
