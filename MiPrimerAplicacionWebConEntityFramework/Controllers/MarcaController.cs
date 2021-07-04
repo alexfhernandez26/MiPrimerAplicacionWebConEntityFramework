@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiPrimerAplicacionWebConEntityFramework.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         // GET: Marca
         public ActionResult Index()
         {
-            return View();
+            List<MarcaCLS> listamarca = null;
+            using (var bd = new BDPasajeEntities())
+            {
+                listamarca = (from marca in bd.Marca
+                              select new MarcaCLS
+                              {
+                                  iidmarca = marca.IIDMARCA,
+                                  nombre = marca.NOMBRE,
+                                  descripcion = marca.DESCRIPCION
+                              }).ToList();
+            }
+                return View(listamarca);
         }
     }
 }
