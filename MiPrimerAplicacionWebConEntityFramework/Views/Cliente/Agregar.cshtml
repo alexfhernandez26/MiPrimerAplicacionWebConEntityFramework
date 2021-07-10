@@ -2,6 +2,7 @@
 @model ClienteCLS
 @{
     ViewBag.Title = "Agregar";
+    List<SelectListItem> listaSexo = (List<SelectListItem>)ViewBag.lista;
 }
 
 <h2>Agregar</h2>
@@ -34,6 +35,12 @@
             @Html.LabelFor(p => p.DIRECCION)
             @Html.TextBoxFor(p => p.DIRECCION, new { @class = "form-control" })
             @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
+        </div>
+        <!--Agregando el DropdowList-->
+        <div>
+            @Html.LabelFor(p => p.IIDSEXO)
+            @Html.DropDownList("IIDSEXO",listaSexo,null,new { @class="form-control"})
+            @Html.ValidationMessage("IIDSEXO", new { @class = "text-danger" })
         </div>
         <div>
             @Html.LabelFor(p => p.TELEFONOFIJO)
