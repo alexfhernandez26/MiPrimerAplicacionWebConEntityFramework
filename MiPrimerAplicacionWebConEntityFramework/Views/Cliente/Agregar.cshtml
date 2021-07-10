@@ -1,0 +1,53 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models;
+@model ClienteCLS
+@{
+    ViewBag.Title = "Agregar";
+}
+
+<h2>Agregar</h2>
+
+@using (Html.BeginForm("Agregar", "Cliente", FormMethod.Post))
+{
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            @Html.LabelFor(p => p.NOMBRE)
+            @Html.TextBoxFor(p => p.NOMBRE, new { @class = "form-control" })
+            @Html.ValidationMessage("NOMBRE", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.APPATERNO)
+            @Html.TextBoxFor(p => p.APPATERNO, new { @class = "form-control" })
+            @Html.ValidationMessage("APPATERNO", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.APMATERNO)
+            @Html.TextBoxFor(p => p.APMATERNO, new { @class = "form-control" })
+            @Html.ValidationMessage("APMATERNO", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.EMAIL)
+            @Html.TextBoxFor(p => p.EMAIL, new { @class = "form-control" })
+            @Html.ValidationMessage("EMAIL", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.DIRECCION)
+            @Html.TextBoxFor(p => p.DIRECCION, new { @class = "form-control" })
+            @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.TELEFONOFIJO)
+            @Html.TextBoxFor(p => p.TELEFONOFIJO, new { @class = "form-control" })
+            @Html.ValidationMessage("TELEFONOFIJO", new { @class = "text-danger" })
+        </div>
+        <div>
+            @Html.LabelFor(p => p.TELEFONOCELULAR)
+            @Html.TextBoxFor(p => p.TELEFONOCELULAR, new { @class = "form-control" })
+            @Html.ValidationMessage("TELEFONOCELULAR", new { @class = "text-danger" })
+        </div>
+
+        <div>
+            <input type="submit" value="guardar" class="btn btn-primary" />
+        </div>
+    </div>
+</div>}

@@ -28,5 +28,30 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
             return View(listaCliente);
         }
+
+        public ActionResult Agregar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Agregar(ClienteCLS clienteCLS)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(clienteCLS);
+            }
+            else
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
