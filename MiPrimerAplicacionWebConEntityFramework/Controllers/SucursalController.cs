@@ -27,5 +27,38 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             }
                 return View(listaSucursal);
         }
+
+        public ActionResult Agregar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Agregar(SucursalCLS sucursalCLS)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return View(sucursalCLS);
+            }
+            else
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    Sucursal sucursal = new Sucursal();
+
+                    sucursal.NOMBRE = sucursalCLS.nombre;
+                    sucursal.DIRECCION = sucursalCLS.direccion;
+                    sucursal.TELEFONO = sucursalCLS.telefono;
+                    sucursal.EMAIL = sucursalCLS.email;
+                    sucursal.FECHAAPERTURA = sucursalCLS.fechaApertura;
+                    sucursal.BHABILITADO = 1;
+                    bd.Sucursal.Add(sucursal);
+                    bd.SaveChanges();
+                }
+            }
+           
+            return RedirectToAction("Index");
+        }
     }
 }
