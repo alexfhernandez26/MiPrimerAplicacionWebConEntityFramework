@@ -1,0 +1,35 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models;
+@model List<EmpleadoCLS>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.ActionLink("Agregar", "Agregar", "Empleado", new { @class = "btn btn-primary" })
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(p => Model[0].iidempleado)</th>
+            <th>@Html.LabelFor(p => Model[0].nombre)</th>
+            <th>@Html.LabelFor(p => Model[0].apPaterno)</th>
+            <th>@Html.LabelFor(p => Model[0].NombreTipoUsuario)</th>
+            <th>@Html.LabelFor(p => Model[0].NombreTipoContrato)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.iidempleado</td>
+                <td>@item.nombre</td>
+                <td>@item.apPaterno</td>
+                <td>@item.NombreTipoUsuario</td>
+                <td>@item.NombreTipoContrato</td>
+            </tr>
+}
+    </tbody>
+</table>
