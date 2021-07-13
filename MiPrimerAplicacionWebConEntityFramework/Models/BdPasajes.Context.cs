@@ -46,5 +46,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<VENTA> VENTA { get; set; }
         public virtual DbSet<Viaje> Viaje { get; set; }
+
+        public System.Data.Entity.DbSet<MiPrimerAplicacionWebConEntityFramework.Models.BusCLS> BusCLS { get; set; }
     }
 }

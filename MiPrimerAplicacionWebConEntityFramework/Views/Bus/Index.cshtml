@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MiPrimerAplicacionWebConEntityFramework.Models.BusCLS>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.iidbus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreSucursal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreTipoBus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.placa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechacompra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreModelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreMarca)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.iidbus)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreSucursal)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreTipoBus)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.placa)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.fechacompra)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreModelo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreMarca)
+    </td>
+
+</tr>
+}
+
+</table>
