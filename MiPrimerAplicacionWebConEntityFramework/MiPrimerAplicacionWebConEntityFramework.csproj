@@ -286,6 +286,7 @@
     <Content Include="Views\Empleado\Index.cshtml" />
     <Content Include="Views\Bus\Index.cshtml" />
     <Content Include="Views\Viaje\Index.cshtml" />
+    <Content Include="Views\Empleado\Agregar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

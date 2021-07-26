@@ -32,5 +32,98 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                
             return View(listaEmpelados);
         }
+
+        public ActionResult Agregar()
+        {
+            listarTodoslosCombos();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Agregar(EmpleadoCLS empleadoCLS)
+        {
+            listarTodoslosCombos();
+            if (!ModelState.IsValid)
+            {
+                listarTodoslosCombos();
+                return View(empleadoCLS);
+            }
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Empleado empleado = new Empleado();
+                empleado.NOMBRE = empleadoCLS.nombre;
+                empleado.APPATERNO = empleadoCLS.apPaterno;
+                empleado.APMATERNO = empleadoCLS.apMaterno;
+                empleado.FECHACONTRATO = empleadoCLS.fechaContrato;
+                empleado.IIDTIPOUSUARIO = empleadoCLS.iidtipousuario;
+                empleado.IIDTIPOCONTRATO = empleadoCLS.iidtipocontrato;
+                empleado.IIDSEXO = empleadoCLS.iidsexo;
+                empleado.BHABILITADO = 1;
+
+                bd.Empleado.Add(empleado);
+                bd.SaveChanges();
+            }
+                         
+            return RedirectToAction("Index");
+        }
+
+        List<SelectListItem> listaTipoUsuario = null;
+        public void llenarComboTipoUsuario()
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                listaTipoUsuario = (from tipousuario in bd.TipoUsuario
+                                    where tipousuario.BHABILITADO == 1
+                                    select new SelectListItem
+                                    {
+                                        Text = tipousuario.NOMBRE,
+                                        Value = tipousuario.IIDTIPOUSUARIO.ToString()
+                                    }).ToList();
+                listaTipoUsuario.Insert(0,new SelectListItem {Text="--Seleccione--",Value="" });
+            }
+            ViewBag.tipoUsuario = listaTipoUsuario;
+        }
+
+        List<SelectListItem> listaTipoCpontrato = null;
+        public void llenarComboTipoContrato()
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                listaTipoCpontrato = (from tipocontrato in bd.TipoContrato
+                                    where tipocontrato.BHABILITADO == 1
+                                    select new SelectListItem
+                                    {
+                                        Text = tipocontrato.NOMBRE,
+                                        Value = tipocontrato.IIDTIPOCONTRATO.ToString()
+                                    }).ToList();
+                listaTipoCpontrato.Insert(0, new SelectListItem { Text = "--Seleccione--", Value = "" });
+            }
+            ViewBag.tipocontrato = listaTipoCpontrato;
+        }
+
+        List<SelectListItem> listaTipoSexo = null;
+        public void llenarComboTiposexo()
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                listaTipoSexo = (from tiposexo in bd.Sexo
+                                      where tiposexo.BHABILITADO == 1
+                                      select new SelectListItem
+                                      {
+                                          Text = tiposexo.NOMBRE,
+                                          Value = tiposexo.IIDSEXO.ToString()
+                                      }).ToList();
+                listaTipoSexo.Insert(0, new SelectListItem { Text = "--Seleccione--", Value = "" });
+            }
+            ViewBag.tiposexo = listaTipoSexo;
+        }
+
+        public void listarTodoslosCombos()
+        {
+            llenarComboTipoUsuario();
+            llenarComboTipoContrato();
+            llenarComboTiposexo();
+        }
     }
 }

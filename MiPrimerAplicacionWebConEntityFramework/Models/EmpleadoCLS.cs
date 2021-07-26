@@ -21,6 +21,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public string apMaterno { get; set; }
         [Required]
         [Display(Name = "Fecha Contrato")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechaContrato { get; set; }
         [Required]
         [Display(Name = "Tipo Usuario")]
