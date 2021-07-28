@@ -14,6 +14,9 @@
             <th>@Html.LabelFor(p => Model[0].iidmarca)</th>
             <th>@Html.LabelFor(p => Model[0].nombre)</th>
             <th>@Html.LabelFor(p => Model[0].descripcion)</th>
+            <th>
+                Operaciones
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +27,10 @@
                 <td>@item.iidmarca</td>
                 <td>@item.nombre</td>
                 <td>@item.descripcion</td>
+                <td>
+                    @Html.ActionLink(" ", "Editar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                </td>
             </tr>
         }
     </tbody>
