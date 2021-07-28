@@ -33,7 +33,7 @@
         </div>
         <div>
             @Html.LabelFor(p => p.DIRECCION)
-            @Html.TextBoxFor(p => p.DIRECCION, new { @class = "form-control" })
+            @Html.EditorFor(p => p.DIRECCION, new { htmlAttributes = new {@class="form-control" } })
             @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
         </div>
         <!--Agregando el DropdowList-->

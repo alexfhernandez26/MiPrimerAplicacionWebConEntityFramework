@@ -25,6 +25,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public string EMAIL { get; set; }
         [Display(Name = "Direccion")]
         [Required]
+        [DataType(DataType.MultilineText)]
         public string DIRECCION { get; set; }
         [Display(Name = "Sexo")]
         [Required]
