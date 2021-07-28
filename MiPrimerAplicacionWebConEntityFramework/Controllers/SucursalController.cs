@@ -60,5 +60,44 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
            
             return RedirectToAction("Index");
         }
+        public ActionResult Editar(int id)
+        {
+            SucursalCLS sucursalCLS = new SucursalCLS();
+            using (var bd = new BDPasajeEntities())
+            {
+                Sucursal sucursal = bd.Sucursal.Where(p => p.IIDSUCURSAL.Equals(id)).First();
+                sucursalCLS.iidsucursal= sucursal.IIDSUCURSAL;
+                sucursalCLS.nombre = sucursal.NOMBRE;
+                sucursalCLS.direccion = sucursal.DIRECCION;
+                sucursalCLS.telefono = sucursal.TELEFONO;
+                sucursalCLS.email = sucursal.EMAIL;
+                sucursalCLS.fechaApertura = (DateTime)sucursal.FECHAAPERTURA;
+            }
+           
+            return View(sucursalCLS);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(SucursalCLS sucursalCLS)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(sucursalCLS);
+            }
+            using (var bd = new BDPasajeEntities())
+            {
+                Sucursal sucursal = new Sucursal();
+                sucursal = bd.Sucursal.Where(p => p.IIDSUCURSAL.Equals(sucursalCLS.iidsucursal)).First();
+                sucursal.NOMBRE = sucursalCLS.nombre;
+                sucursal.DIRECCION = sucursalCLS.direccion;
+                sucursal.TELEFONO = sucursalCLS.telefono;
+                sucursal.EMAIL= sucursalCLS.email;
+                sucursal.FECHAAPERTURA = sucursalCLS.fechaApertura;
+                bd.SaveChanges();
+            }
+
+
+                return RedirectToAction("Index");
+        }
     }
 }

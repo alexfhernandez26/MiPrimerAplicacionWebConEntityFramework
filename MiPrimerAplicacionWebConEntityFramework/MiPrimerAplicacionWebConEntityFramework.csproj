@@ -288,6 +288,7 @@
     <Content Include="Views\Viaje\Index.cshtml" />
     <Content Include="Views\Empleado\Agregar.cshtml" />
     <Content Include="Views\Marca\Editar.cshtml" />
+    <Content Include="Views\Sucursal\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
