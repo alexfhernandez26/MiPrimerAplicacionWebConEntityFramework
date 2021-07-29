@@ -1,0 +1,66 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models;
+@model ClienteCLS
+@{
+    ViewBag.Title = "Editar";
+    List<SelectListItem> listaSexo = (List<SelectListItem>)ViewBag.lista;
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm("Editar", "Cliente", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                @Html.LabelFor(p => p.iidCliente)
+                @Html.TextBoxFor(p => p.iidCliente, new { @class = "form-control", @readOnly = "true" })
+                @Html.ValidationMessage("iidCliente", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.NOMBRE)
+                @Html.TextBoxFor(p => p.NOMBRE, new { @class = "form-control" })
+                @Html.ValidationMessage("NOMBRE", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.APPATERNO)
+                @Html.TextBoxFor(p => p.APPATERNO, new { @class = "form-control" })
+                @Html.ValidationMessage("APPATERNO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.APMATERNO)
+                @Html.TextBoxFor(p => p.APMATERNO, new { @class = "form-control" })
+                @Html.ValidationMessage("APMATERNO", new { @class = "text-danger" })
+            </div>
+
+            <div>
+                @Html.LabelFor(p => p.EMAIL)
+                @Html.TextBoxFor(p => p.EMAIL, new { @class = "form-control" })
+                @Html.ValidationMessage("EMAIL", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.DIRECCION)
+                @Html.EditorFor(p => p.DIRECCION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
+            </div>
+            <!--Agregando el DropdowList-->
+            <div>
+                @Html.LabelFor(p => p.IIDSEXO)
+                @Html.DropDownList("IIDSEXO", listaSexo, null, new { @class = "form-control" })
+                @Html.ValidationMessage("IIDSEXO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.TELEFONOFIJO)
+                @Html.TextBoxFor(p => p.TELEFONOFIJO, new { @class = "form-control" })
+                @Html.ValidationMessage("TELEFONOFIJO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.TELEFONOCELULAR)
+                @Html.TextBoxFor(p => p.TELEFONOCELULAR, new { @class = "form-control" })
+                @Html.ValidationMessage("TELEFONOCELULAR", new { @class = "text-danger" })
+            </div>
+
+            <div>
+                <input type="submit" value="guardar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>}

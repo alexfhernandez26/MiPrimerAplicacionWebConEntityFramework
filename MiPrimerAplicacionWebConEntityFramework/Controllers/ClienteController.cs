@@ -89,5 +89,53 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Editar(int id)
+        {
+            llenarComboSexo();
+            ViewBag.lista = listaSexo;
+            ClienteCLS clienteCLS = new ClienteCLS();
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Cliente cliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(id)).First();
+                clienteCLS.iidCliente = cliente.IIDCLIENTE;
+                clienteCLS.NOMBRE = cliente.NOMBRE;
+                clienteCLS.APPATERNO = cliente.APPATERNO;
+                clienteCLS.APMATERNO = cliente.APMATERNO;
+                clienteCLS.EMAIL = cliente.EMAIL;
+                clienteCLS.DIRECCION= cliente.DIRECCION;
+                clienteCLS.IIDSEXO = (int)cliente.IIDSEXO;
+                clienteCLS.TELEFONOFIJO= cliente.TELEFONOFIJO;
+                clienteCLS.TELEFONOCELULAR = cliente.TELEFONOCELULAR;
+            }
+
+            return View(clienteCLS);
+        }
+        [HttpPost]
+        public ActionResult Editar(ClienteCLS clienteCLS)
+        {
+            Cliente cliente = new Cliente();
+            llenarComboSexo();
+            if (!ModelState.IsValid)
+            {
+                return View(clienteCLS);
+            }
+            using (var bd = new BDPasajeEntities())
+            {
+                cliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(clienteCLS.iidCliente)).First();
+                cliente.NOMBRE = clienteCLS.NOMBRE;
+                cliente.APPATERNO = clienteCLS.APPATERNO;
+                cliente.APMATERNO = clienteCLS.APMATERNO;
+                cliente.EMAIL = clienteCLS.EMAIL;
+                cliente.DIRECCION = clienteCLS.DIRECCION;
+                cliente.IIDSEXO = (int)clienteCLS.IIDSEXO;
+                cliente.TELEFONOFIJO = clienteCLS.TELEFONOFIJO;
+                cliente.TELEFONOCELULAR = clienteCLS.TELEFONOCELULAR;
+                bd.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
