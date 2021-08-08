@@ -68,6 +68,51 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Editar(int id)
+        {
+            listarTodoslosCombos();
+            EmpleadoCLS empleadoCLS= new EmpleadoCLS();
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Empleado empleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(id)).First();
+                empleadoCLS.iidempleado = empleado.IIDEMPLEADO;
+                empleadoCLS.nombre = empleado.NOMBRE;
+                empleadoCLS.apPaterno = empleado.APPATERNO;
+                empleadoCLS.apMaterno = empleado.APMATERNO;
+                empleadoCLS.fechaContrato = (DateTime)empleado.FECHACONTRATO;
+                empleadoCLS.iidtipousuario = (int)empleado.IIDTIPOUSUARIO;
+                empleadoCLS.iidtipocontrato = (int)empleado.IIDTIPOCONTRATO;
+                empleadoCLS.iidsexo = (int)empleado.IIDSEXO;
+            }
+                return View(empleadoCLS);
+        }
+        
+        [HttpPost]
+        public ActionResult Editar(EmpleadoCLS empleadoCLS)
+        {
+            listarTodoslosCombos();
+            Empleado empleado = new Empleado();
+
+            if (!ModelState.IsValid)
+            {
+                return View(empleadoCLS);
+            }
+            using (var bd = new BDPasajeEntities())
+            {
+                empleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(empleadoCLS.iidempleado)).First();
+                empleado.NOMBRE = empleadoCLS.nombre;
+                empleado.APPATERNO = empleadoCLS.apPaterno;
+                empleado.APMATERNO = empleadoCLS.apMaterno;
+                empleado.FECHACONTRATO = empleadoCLS.fechaContrato;
+                empleado.IIDTIPOUSUARIO = empleadoCLS.iidtipousuario;
+                empleado.IIDTIPOCONTRATO = empleadoCLS.iidtipocontrato;
+                empleado.IIDSEXO = empleadoCLS.iidsexo;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
         List<SelectListItem> listaTipoUsuario = null;
         public void llenarComboTipoUsuario()
         {
