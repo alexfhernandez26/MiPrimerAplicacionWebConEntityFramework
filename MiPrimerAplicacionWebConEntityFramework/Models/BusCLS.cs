@@ -12,10 +12,11 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [Display(Name = "ID Bus")]
         public int iidbus { get; set; }
         [Required]
-        [Display(Name ="ID Sucursal")]
+        [Display(Name ="Nombre Sucursal")]
+        
         public int iidsucursal { get; set; }
         [Required]
-        [Display(Name = "ID TipoBus")]
+        [Display(Name = "Nombre TipoBus")]
         public int iidtipobus { get; set; }
         [Required]
         [Display(Name = "Placa")]
@@ -26,7 +27,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechacompra { get; set; }
         [Required]
-        [Display(Name = "ID Modelo")]
+        [Display(Name = "Nombre Modelo")]
         public int iidmodelo { get; set; }
         [Required]
         [Display(Name = "Numero Filas")]
@@ -34,10 +35,13 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [Required]
         [Display(Name = "Numero Columnas")]
         public int numeroColumnas { get; set; }
+        [Required]
+        [Display(Name = "Descripcion")]
+        public string descripcion { get; set; }
         public int bhabilitado { get; set; }
         [Required]
-        [Display(Name = "ID Marca")]
-        public string iidmarca { get; set; }
+        [Display(Name = "Nombre Marca")]
+        public int iidmarca { get; set; }
 
         //Nombre a las propiedades adicionales
         [Display(Name = "Nombre Sucursal")]
