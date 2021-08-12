@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        @using (Html.BeginForm("Editar", "Marca", FormMethod.Post))
+        @using (Html.BeginForm("Editar", "Marca", FormMethod.Post,new {@id="frmEditar" }))
         {
             <div>
                 @Html.LabelFor(p => p.iidmarca)
@@ -31,3 +31,14 @@
         }
     </div>
 </div>
+
+<script>
+    var frmEditar = document.getElementById("frmEditar");
+    frmEditar.onsubmit = function (e) {
+        e.preventDefault();
+        if (confirm("Guardar cambios?") == 1) {
+            frmEditar.submit();
+        }
+    }
+
+</script>
