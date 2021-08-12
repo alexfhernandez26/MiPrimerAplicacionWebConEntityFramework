@@ -6,7 +6,7 @@
 
 <h2>Editar</h2>
 
-@using (Html.BeginForm("Editar", "Sucursal", FormMethod.Post))
+@using (Html.BeginForm("Editar", "Sucursal", FormMethod.Post,new {@id= "frmEditar" }))
 {
     <div class="row">
         <div class="col-md-6">
@@ -46,7 +46,18 @@
             </div>
             <div>
                 <input type="submit" value="guardar" class="btn btn-primary" />
+                @Html.ActionLink("Atras", "Index", "Sucursal", null, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>
 }
+
+<script>
+    var frmAgregar = document.getElementById("frmEditar");
+    frmAgregar.onsubmit = function (e) {
+        e.preventDefault();
+        if (confirm("Desea guardar cambios?") == 1) {
+            frmAgregar.submit();
+        }
+    }
+</script>
