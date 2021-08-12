@@ -7,54 +7,89 @@
 
 <h2>Agregar</h2>
 
-@using (Html.BeginForm("Agregar", "Cliente", FormMethod.Post))
+@using (Html.BeginForm("Agregar", "Cliente", FormMethod.Post,new {@id="frmGuardar" }))
 {
-<div class="row">
-    <div class="col-md-6">
-        <div>
-            @Html.LabelFor(p => p.NOMBRE)
-            @Html.TextBoxFor(p => p.NOMBRE, new { @class = "form-control" })
-            @Html.ValidationMessage("NOMBRE", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.APPATERNO)
-            @Html.TextBoxFor(p => p.APPATERNO, new { @class = "form-control" })
-            @Html.ValidationMessage("APPATERNO", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.APMATERNO)
-            @Html.TextBoxFor(p => p.APMATERNO, new { @class = "form-control" })
-            @Html.ValidationMessage("APMATERNO", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.EMAIL)
-            @Html.TextBoxFor(p => p.EMAIL, new { @class = "form-control" })
-            @Html.ValidationMessage("EMAIL", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.DIRECCION)
-            @Html.EditorFor(p => p.DIRECCION, new { htmlAttributes = new {@class="form-control" } })
-            @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
-        </div>
-        <!--Agregando el DropdowList-->
-        <div>
-            @Html.LabelFor(p => p.IIDSEXO)
-            @Html.DropDownList("IIDSEXO",listaSexo,null,new { @class="form-control"})
-            @Html.ValidationMessage("IIDSEXO", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.TELEFONOFIJO)
-            @Html.TextBoxFor(p => p.TELEFONOFIJO, new { @class = "form-control" })
-            @Html.ValidationMessage("TELEFONOFIJO", new { @class = "text-danger" })
-        </div>
-        <div>
-            @Html.LabelFor(p => p.TELEFONOCELULAR)
-            @Html.TextBoxFor(p => p.TELEFONOCELULAR, new { @class = "form-control" })
-            @Html.ValidationMessage("TELEFONOCELULAR", new { @class = "text-danger" })
-        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                @Html.LabelFor(p => p.NOMBRE)
+                @Html.TextBoxFor(p => p.NOMBRE, new { @class = "form-control" })
+                @Html.ValidationMessage("NOMBRE", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.APPATERNO)
+                @Html.TextBoxFor(p => p.APPATERNO, new { @class = "form-control" })
+                @Html.ValidationMessage("APPATERNO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.APMATERNO)
+                @Html.TextBoxFor(p => p.APMATERNO, new { @class = "form-control" })
+                @Html.ValidationMessage("APMATERNO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.EMAIL)
+                @Html.TextBoxFor(p => p.EMAIL, new { @class = "form-control" })
+                @Html.ValidationMessage("EMAIL", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.DIRECCION)
+                @Html.EditorFor(p => p.DIRECCION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("DIRECCION", new { @class = "text-danger" })
+            </div>
+            <!--Agregando el DropdowList-->
+            <div>
+                @Html.LabelFor(p => p.IIDSEXO)
+                @Html.DropDownList("IIDSEXO", listaSexo, null, new { @class = "form-control" })
+                @Html.ValidationMessage("IIDSEXO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.TELEFONOFIJO)
+                @Html.TextBoxFor(p => p.TELEFONOFIJO, new { @class = "form-control" })
+                @Html.ValidationMessage("TELEFONOFIJO", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(p => p.TELEFONOCELULAR)
+                @Html.TextBoxFor(p => p.TELEFONOCELULAR, new { @class = "form-control" })
+                @Html.ValidationMessage("TELEFONOCELULAR", new { @class = "text-danger" })
+            </div>
 
-        <div>
-            <input type="submit" value="guardar" class="btn btn-primary" />
+            <div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Guardar
+                </button>
+                @Html.ActionLink("Atras", "Index", "Cliente", null, new { @class = "btn btn-danger" })
+            </div>
         </div>
     </div>
-</div>}
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Guardar()" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Guardar() {
+        var frmguardar = document.getElementById("frmGuardar");
+       
+        frmguardar.submit();
+    }
+    
+</script>
