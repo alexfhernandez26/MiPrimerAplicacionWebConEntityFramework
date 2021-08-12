@@ -76,7 +76,56 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return RedirectToAction("Index");
         }
 
-       
+       public ActionResult Editar(int id)
+        {
+            TodosLosCombos();
+            Bus bus = new Bus();
+            BusCLS buscls = new BusCLS();
+            using (var bd = new BDPasajeEntities())
+            {
+                bus = bd.Bus.Where(p => p.IIDBUS.Equals(id)).First();
+
+                
+                buscls.iidbus = bus.IIDBUS;
+                buscls.iidsucursal =(int)bus.IIDSUCURSAL;
+                buscls.iidtipobus = (int)bus.IIDTIPOBUS;
+                buscls.placa= bus.PLACA;
+                buscls.fechacompra= (DateTime)bus.FECHACOMPRA;
+                buscls.iidmodelo = (int)bus.IIDMODELO;
+                buscls.numeroFilas= (int)bus.NUMEROFILAS;
+                buscls.numeroColumnas = (int)bus.NUMEROCOLUMNAS;
+                buscls.descripcion = bus.DESCRIPCION;
+                buscls.iidmarca = (int)bus.IIDMARCA;
+            }
+                return View(buscls);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(BusCLS busCLS)
+        {
+            TodosLosCombos();
+            Bus bus = new Bus();
+            if (!ModelState.IsValid)
+            {
+                TodosLosCombos();
+                return View(busCLS);
+            }
+            using (var bd = new BDPasajeEntities())
+            {
+                bus = bd.Bus.Where(p => p.IIDBUS.Equals(busCLS.iidbus)).First();
+                bus.IIDSUCURSAL = busCLS.iidsucursal;
+                bus.IIDTIPOBUS = busCLS.iidtipobus;
+                bus.PLACA = busCLS.placa;
+                bus.FECHACOMPRA = busCLS.fechacompra;
+                bus.IIDMODELO = busCLS.iidmodelo;
+                bus.NUMEROFILAS = busCLS.numeroFilas;
+                bus.NUMEROCOLUMNAS = busCLS.numeroColumnas;
+                bus.DESCRIPCION = busCLS.descripcion;
+                bus.IIDMARCA = busCLS.iidmarca;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
         public void llenarComboNombreSucursal()
         {
             List<SelectListItem> listanombreSucursal = null;

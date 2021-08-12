@@ -33,7 +33,9 @@
         <th>
             @Html.DisplayNameFor(model => model.NombreMarca)
         </th>
-        <th></th>
+        <th>
+            Operaciones
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -58,6 +60,10 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.NombreMarca)
+    </td>
+    <td>
+        @Html.ActionLink(" ", "Editar", "Bus", new { id = @item.iidbus }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+        @Html.ActionLink(" ", "Eliminar", "Bus", new { id = @item.iidbus }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
     </td>
 
 </tr>
