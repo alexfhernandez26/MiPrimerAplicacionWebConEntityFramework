@@ -11,7 +11,7 @@
 <h2>Agregar</h2>
 <div class="row">
     <div class="col-md-10">
-        @using (Html.BeginForm("Agregar","Bus",FormMethod.Post))
+        @using (Html.BeginForm("Agregar", "Bus", FormMethod.Post, new {@id= "frmGuardar" }))
         {
             @Html.AntiForgeryToken()
 
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.iidsucursal, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("iidsucursal", listasucursal,null,new {@class="form-control"})
+                        @Html.DropDownList("iidsucursal", listasucursal, null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.iidsucursal, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.iidtipobus, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("iidtipobus",  listatipobus,null, new { @class = "form-control" })
+                        @Html.DropDownList("iidtipobus", listatipobus, null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.iidtipobus, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.iidmodelo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("iidmodelo",listatipomodelo,null, new { @class = "form-control" })
+                        @Html.DropDownList("iidmodelo", listatipomodelo, null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.iidmodelo, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -88,16 +88,18 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.iidmarca, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("iidmarca",listatipomarca, null, new { @class = "form-control" })
+                        @Html.DropDownList("iidmarca", listatipomarca, null, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.iidmarca, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
+                <div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Guardar
+                    </button>
+                    @Html.ActionLink("Atras", "Index", "Bus", null, new { @class = "btn btn-danger" })
                 </div>
             </div>
         }
@@ -106,3 +108,28 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea guardar los cambios?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Guardar()" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>function Guardar() {
+        var frmguardar = document.getElementById("frmGuardar");
+
+        frmguardar.submit();
+    }</script>
