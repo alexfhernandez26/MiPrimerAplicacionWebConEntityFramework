@@ -22,7 +22,9 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public int precio { get; set; }
         [Required]
         [Display(Name = "Fecha Viaje")]
-        public int fechaViaje { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime fechaViaje { get; set; }
         [Required]
         [Display(Name = "Nombre bus")]
         public int iidbus { get; set; }

@@ -293,6 +293,8 @@
     <Content Include="Views\Empleado\Editar.cshtml" />
     <Content Include="Views\Bus\Agregar.cshtml" />
     <Content Include="Views\Bus\Editar.cshtml" />
+    <Content Include="Views\Viaje\Agregar.cshtml" />
+    <Content Include="Views\Viaje\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

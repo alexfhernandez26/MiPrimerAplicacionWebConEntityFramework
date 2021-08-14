@@ -1,0 +1,109 @@
+﻿@model MiPrimerAplicacionWebConEntityFramework.Models.ViajeCLS
+
+@{
+    ViewBag.Title = "Agregar";
+    List<SelectListItem> listaviajelugar = (List<SelectListItem>)ViewBag.viaje;
+    List<SelectListItem> listaBus = (List<SelectListItem>)ViewBag.bus;
+}
+
+<h2>Agregar</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Editar", "Viaje", FormMethod.Post, new { @id = "frmEditar" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.iidviaje, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.iidviaje, new { htmlAttributes = new { @class = "form-control", @readOnly = true } })
+                        @Html.ValidationMessageFor(model => model.iidviaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.iidlugarorigen, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("iidlugarorigen", listaviajelugar, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.iidlugarorigen, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.iidlugardestino, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("iidlugardestino", listaviajelugar, null, new { @class = "form-control" });
+                        @Html.ValidationMessageFor(model => model.iidlugardestino, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.precio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.precio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.fechaViaje, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.fechaViaje, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.fechaViaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.iidbus, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("iidbus", listaBus, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.iidbus, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <!-- Button trigger modal -->
+                    <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                       Editar
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seguro que desea editar?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="Editar()" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function Editar() {
+        var frmEditar = document.getElementById("frmEditar");
+        frmEditar.submit();
+    }
+</script>

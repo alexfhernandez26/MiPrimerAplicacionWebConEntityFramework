@@ -14,22 +14,27 @@
             <th>@Html.LabelFor(p => Model[0].iidviaje)</th>
             <th>@Html.LabelFor(p => Model[0].NombrelugarOrigen)</th>
             <th>@Html.LabelFor(p => Model[0].NombrelugarDestino)</th>
+            <th>@Html.LabelFor(p => Model[0].fechaViaje)</th>
             <th>@Html.LabelFor(p => Model[0].nombreBus)</th>
-           
+            <th>Operaciones</th>
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
 
-                <td>@item.iidviaje</td>
-                <td>@item.NombrelugarOrigen</td>
-                <td>@item.NombrelugarDestino</td>
-                <td>@item.nombreBus</td>
-               
-            </tr>
+            <td>@item.iidviaje</td>
+            <td>@item.NombrelugarOrigen</td>
+            <td>@item.NombrelugarDestino</td>
+            <td>@item.fechaViaje</td>
+            <td>@item.nombreBus</td>
+            <td>
+                @Html.ActionLink(" ", "Editar", "Viaje", new { id = @item.iidviaje }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+                @Html.ActionLink(" ", "Eliminar", "Viaje", new { id = @item.iidviaje }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+            </td>
+        </tr>
 }
     </tbody>
 </table>
