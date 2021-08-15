@@ -16,6 +16,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             using (var bd = new BDPasajeEntities())
             {
                 listamarca = (from marca in bd.Marca
+                              where marca.BHABILITADO==1
                               select new MarcaCLS
                               {
                                   iidmarca = marca.IIDMARCA,
@@ -85,6 +86,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 }
             }
             return RedirectToAction("index");
+        }
+
+        public ActionResult Eliminar(int id)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Marca marca = new Marca();
+                marca = bd.Marca.Where(p => p.IIDMARCA.Equals(id)).First();
+                marca.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+                return RedirectToAction("Index");
         }
     }
 }

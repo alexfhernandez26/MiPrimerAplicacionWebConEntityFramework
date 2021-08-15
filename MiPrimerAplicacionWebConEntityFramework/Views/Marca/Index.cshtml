@@ -29,9 +29,19 @@
                 <td>@item.descripcion</td>
                 <td>
                     @Html.ActionLink(" ", "Editar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick="Eliminar()" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function Eliminar(e){
+        if (confirm("Desea Eliminar el registro?") == 1) {
+            alert("Registro eliminado")
+        } else {
+            event.preventDefault();
+        }
+    }
+</script>
