@@ -21,5 +21,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public string descripcion { get; set; }
         public int bhabilitado { get; set; }
 
+
+        //Propiedad mensaje para comprobar si el nombre de la marca se duplica,este mensaje dara el mensaje de error
+        public string mensajeError { get; set; }
     }
 }

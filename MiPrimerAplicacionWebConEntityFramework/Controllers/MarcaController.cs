@@ -32,6 +32,36 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Agregar(MarcaCLS marcaCLS)
+        {
+            string nombreMarca = marcaCLS.nombre;
+            int numeroRepite = 0;
+         
+            using (var bd = new BDPasajeEntities())
+            {
+                numeroRepite = bd.Marca.Where(p => p.NOMBRE.Equals(nombreMarca)).Count();
+            }
+                if (!ModelState.IsValid || numeroRepite >=1)
+                {
+                if (numeroRepite >= 1) marcaCLS.mensajeError = "El nombre que esta ingresando ya existe";
+                    return View(marcaCLS);
+                }
+                else
+                {
+                    using (var bd = new BDPasajeEntities())
+                    {
+                        Marca marca = new Marca();
+                        marca.NOMBRE = marcaCLS.nombre;
+                        marca.DESCRIPCION = marcaCLS.descripcion;
+                        marca.BHABILITADO = 1;
+                        bd.Marca.Add(marca);
+                        bd.SaveChanges();
+                    }
+                }
+            return RedirectToAction("index");
+        }
+
         public ActionResult Editar( int id)
         {
             MarcaCLS marcaCLS = new MarcaCLS();
@@ -66,27 +96,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public ActionResult Agregar(MarcaCLS marcaCLS)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(marcaCLS);
-            }
-            else
-            {
-                using (var bd = new BDPasajeEntities())
-                {
-                    Marca marca = new Marca();
-                    marca.NOMBRE = marcaCLS.nombre;
-                    marca.DESCRIPCION= marcaCLS.descripcion;
-                    marca.BHABILITADO = 1;
-                    bd.Marca.Add(marca);
-                    bd.SaveChanges();
-                }
-            }
-            return RedirectToAction("index");
-        }
+        
 
         public ActionResult Eliminar(int id)
         {
