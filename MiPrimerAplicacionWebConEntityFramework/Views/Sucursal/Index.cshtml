@@ -29,9 +29,19 @@
             <td>@item.email</td>
             <td>
                 @Html.ActionLink(" ", "Editar", "Sucursal", new { id = item.iidsucursal }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                @Html.ActionLink(" ", "Eliminar", "Sucursal", new { id = item.iidsucursal }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                @Html.ActionLink(" ", "Eliminar", "Sucursal", new { id = item.iidsucursal }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick="Eliminar()" })
             </td>
         </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function Eliminar() {
+        if (confirm("Desea Eliminar?")==1) {
+            alert("Registro eliminado")
+        } else {
+            event.preventDefault();
+        }
+    }
+</script>

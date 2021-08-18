@@ -36,9 +36,17 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         [HttpPost]
         public ActionResult Agregar(SucursalCLS sucursalCLS)
         {
-            
-            if (!ModelState.IsValid)
+            int numeroRegistrosEncontrados = 0;
+            string nombresucursal = sucursalCLS.nombre;
+            int id = sucursalCLS.iidsucursal;
+            using (var bd = new BDPasajeEntities())
             {
+                numeroRegistrosEncontrados = bd.Sucursal.Where(p => p.NOMBRE.Equals(nombresucursal)).Count();
+            }
+
+            if (!ModelState.IsValid || numeroRegistrosEncontrados >= 1)
+            {
+                if (numeroRegistrosEncontrados >= 1) sucursalCLS.mensajeError = "El nombre ya existe";
                 return View(sucursalCLS);
             }
             else
@@ -80,8 +88,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         [HttpPost]
         public ActionResult Editar(SucursalCLS sucursalCLS)
         {
-            if (!ModelState.IsValid)
+            int numeroRegistrosEncontrados = 0;
+            string nombresucursal = sucursalCLS.nombre;
+            int id = sucursalCLS.iidsucursal;
+            using (var bd = new BDPasajeEntities())
             {
+                numeroRegistrosEncontrados = bd.Sucursal.Where(p => p.NOMBRE.Equals(nombresucursal) && !p.IIDSUCURSAL.Equals(id)).Count();
+            }
+
+            if (!ModelState.IsValid || numeroRegistrosEncontrados >= 1)
+            {
+                if (numeroRegistrosEncontrados >= 1) sucursalCLS.mensajeError = "El nombre ya existe";
+            
                 return View(sucursalCLS);
             }
             using (var bd = new BDPasajeEntities())
@@ -98,6 +116,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
 
                 return RedirectToAction("Index");
+        }
+
+        public ActionResult Eliminar(int id)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Sucursal sucursal = new Sucursal();
+               sucursal= bd.Sucursal.Where(p => p.IIDSUCURSAL.Equals(id)).First();
+               sucursal.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -36,5 +36,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public DateTime fechaApertura { get; set; }
         public int bhabilitado { get; set; }
 
+        //Propiedad adicional para mandar mensaje de error en caso de que se repita el nombreMarca
+        public string mensajeError  { get; set; }
+
     }
 }
