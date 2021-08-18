@@ -81,10 +81,19 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         {
             Marca marca = new Marca();
 
-            if (!ModelState.IsValid)
+            int numeroRegistrosEncontrados =0;
+            string nombremarca = marcaCLS.nombre;
+            int id = marcaCLS.iidmarca;
+            using (var bd = new BDPasajeEntities())
             {
-                return View(marcaCLS);
+                numeroRegistrosEncontrados = bd.Marca.Where(p => p.NOMBRE.Equals(nombremarca) && !p.IIDMARCA.Equals(id)).Count();
             }
+
+                if (!ModelState.IsValid || numeroRegistrosEncontrados >=1)
+                {
+                if (numeroRegistrosEncontrados >= 1) marcaCLS.mensajeError = "El nombre ya existe";
+                    return View(marcaCLS);
+                }
             using (var bd = new BDPasajeEntities())
             {
                 marca = bd.Marca.Where(p => p.IIDMARCA.Equals(marcaCLS.iidmarca)).First();
