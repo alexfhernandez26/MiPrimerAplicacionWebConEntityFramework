@@ -136,6 +136,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
             return RedirectToAction("Index");
         }
+        
+        public ActionResult Eliminar(int iidcliente)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Cliente cliente = new Cliente();
+                cliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(iidcliente)).First();
+                cliente.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+                return RedirectToAction("Index");
+        }
 
     }
 }

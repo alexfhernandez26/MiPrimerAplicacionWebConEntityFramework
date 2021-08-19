@@ -6,7 +6,7 @@
 
 <h2>Index</h2>
 
-@Html.ActionLink("Agregar","Agregar",null,new {@class="btn btn-primary" })
+@Html.ActionLink("Agregar", "Agregar", null, new { @class = "btn btn-primary" })
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -21,18 +21,57 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+            <tr>
 
-            <td>@item.iidCliente</td>
-            <td>@item.NOMBRE</td>
-            <td>@item.APPATERNO</td>
-            <td>@item.APMATERNO</td>
-            <td>@item.TELEFONOCELULAR</td>
-            <td>
-                @Html.ActionLink(" ", "Editar", "Cliente", new { id = item.iidCliente }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                @Html.ActionLink(" ", "Eliminar","Cliente", new { id = item.iidCliente }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
-            </td>
-        </tr>
+                <td>@item.iidCliente</td>
+                <td>@item.NOMBRE</td>
+                <td>@item.APPATERNO</td>
+                <td>@item.APMATERNO</td>
+                <td>@item.TELEFONOCELULAR</td>
+                <td>
+                    @Html.ActionLink(" ", "Editar", "Cliente", new { id = @item.iidCliente }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+                    <!-- Button trigger modal para eliminar -->
+                    <button type="button" onclick="mostrarPuppop(@item.iidCliente)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    </button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@using (Html.BeginForm("Eliminar", "Cliente",FormMethod.Post,new { @id="frmEliminar"}))
+{ 
+
+    @Html.Hidden("iidcliente");
+
+}
+
+<!-- Modal para eliminar-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Se eliminara el archivo.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="Guardar()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function mostrarPuppop(iidcliente) {
+        document.getElementById("iidcliente").value = iidcliente;
+    }
+
+    function Guardar() {
+        var frmEliminar = document.getElementById("frmEliminar");
+        frmEliminar.submit();
+    }
+</script>
