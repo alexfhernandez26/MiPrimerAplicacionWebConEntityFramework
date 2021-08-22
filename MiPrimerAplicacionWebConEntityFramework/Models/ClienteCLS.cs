@@ -37,7 +37,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [Required]
         public string TELEFONOCELULAR { get; set; }
         public int BHABILITADO { get; set; }
-      
 
+        //propiedad edicional para mostrar mensaje error
+        public string mensajeError { get; set; }
     }
 }

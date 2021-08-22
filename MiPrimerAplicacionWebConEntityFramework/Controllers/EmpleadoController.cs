@@ -20,6 +20,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                   on empleados.IIDTIPOUSUARIO equals tipousuario.IIDTIPOUSUARIO
                                   join tipocontrato in bd.TipoContrato
                                   on empleados.IIDTIPOCONTRATO equals tipocontrato.IIDTIPOCONTRATO
+                                  where empleados.BHABILITADO ==1
                                   select new EmpleadoCLS
                                   {
                                       iidempleado = empleados.IIDEMPLEADO,
@@ -169,6 +170,17 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             llenarComboTipoUsuario();
             llenarComboTipoContrato();
             llenarComboTiposexo();
+        }
+
+        public ActionResult Eliminar(int idempleado)
+        {
+            using (var bd = new BDPasajeEntities())
+            {
+                Empleado emp = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(idempleado)).First(); 
+                emp.BHABILITADO = 0;
+                bd.SaveChanges();
+            }
+                return RedirectToAction("Index");
         }
     }
 }

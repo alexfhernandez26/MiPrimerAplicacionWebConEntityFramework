@@ -31,9 +31,10 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         }
 
         //Llenado comboBox,para llenar un comboBox c# pide que le des una lista de SelectListItem
-        List<SelectListItem> listaSexo = null;
+       
         public void llenarComboSexo()
         {
+            List<SelectListItem> listaSexo = null;
             using (var bd = new BDPasajeEntities())
             {
                 listaSexo = (from sexo in bd.Sexo
@@ -45,15 +46,16 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                              }).ToList();
 
                 listaSexo.Insert(0,new SelectListItem {Text="--Seleccione--",Value="" });
+                ViewBag.lista = listaSexo;
             }
         }
 
         public ActionResult Agregar()
         {
             //viewBag me permite pasar informacion del controller a la vista
-
+            
             llenarComboSexo();
-            ViewBag.lista = listaSexo;
+            
             return View();
         }
 
@@ -63,6 +65,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
             if (!ModelState.IsValid)
             {
+                List<SelectListItem> listaSexo = null;
                 llenarComboSexo();
                 ViewBag.lista = listaSexo;
                 return View(clienteCLS);
@@ -91,8 +94,9 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
         public ActionResult Editar(int id)
         {
+          
             llenarComboSexo();
-            ViewBag.lista = listaSexo;
+         
             ClienteCLS clienteCLS = new ClienteCLS();
 
             using (var bd = new BDPasajeEntities())
@@ -114,12 +118,28 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         [HttpPost]
         public ActionResult Editar(ClienteCLS clienteCLS)
         {
-            Cliente cliente = new Cliente();
             llenarComboSexo();
-            if (!ModelState.IsValid)
+            Cliente cliente = new Cliente();
+            int id = clienteCLS.iidCliente;
+            string nombre = clienteCLS.NOMBRE;
+            string apellidoP = clienteCLS.APPATERNO;
+            string apellidoM = clienteCLS.APMATERNO;
+            int existe = 0;
+
+            using (var bd = new BDPasajeEntities())
             {
+                existe = bd.Cliente.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apellidoP) && p.APMATERNO.Equals(apellidoM) && !p.IIDCLIENTE.Equals(id)).Count();
+            }
+
+                
+            if (!ModelState.IsValid || existe >=1)
+            {
+                llenarComboSexo();
+
+                if (existe >= 1) clienteCLS.mensajeError = "El cliente ya existe";
                 return View(clienteCLS);
             }
+
             using (var bd = new BDPasajeEntities())
             {
                 cliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(clienteCLS.iidCliente)).First();
