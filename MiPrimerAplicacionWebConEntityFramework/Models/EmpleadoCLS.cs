@@ -43,6 +43,6 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [Display(Name = "TipoContrato")]
         public string NombreTipoContrato { get; set; }
 
-
+        public string mensajeError { get; set; }
     }
 }

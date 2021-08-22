@@ -44,9 +44,19 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         public ActionResult Agregar(EmpleadoCLS empleadoCLS)
         {
             listarTodoslosCombos();
-            if (!ModelState.IsValid)
+            string nombre = empleadoCLS.nombre;
+            string apellidoP = empleadoCLS.apPaterno;
+            string apellidoM = empleadoCLS.apMaterno;
+            int existe = 0;
+
+            using (var bd = new BDPasajeEntities())
+            {
+                existe = bd.Empleado.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apellidoP) && p.APMATERNO.Equals(apellidoM)).Count();
+            }
+            if (!ModelState.IsValid || existe >= 1)
             {
                 listarTodoslosCombos();
+                if (existe >= 1) empleadoCLS.mensajeError = "El empleado ya existe";
                 return View(empleadoCLS);
             }
 
@@ -93,10 +103,23 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         public ActionResult Editar(EmpleadoCLS empleadoCLS)
         {
             listarTodoslosCombos();
+            int id = empleadoCLS.iidempleado;
+            string nombre = empleadoCLS.nombre;
+            string apellidoP = empleadoCLS.apPaterno;
+            string apellidoM = empleadoCLS.apMaterno;
+            int existe = 0;
+
             Empleado empleado = new Empleado();
 
-            if (!ModelState.IsValid)
+            using (var bd = new BDPasajeEntities())
             {
+                existe = bd.Empleado.Where(p => p.NOMBRE.Equals(nombre) && p.APPATERNO.Equals(apellidoP) && p.APMATERNO.Equals(apellidoM)).Count();
+            }
+
+            if (!ModelState.IsValid || existe >=1)
+            {
+                if (existe >= 1) empleadoCLS.mensajeError = "El empleado existe";
+                listarTodoslosCombos();
                 return View(empleadoCLS);
             }
             using (var bd = new BDPasajeEntities())
