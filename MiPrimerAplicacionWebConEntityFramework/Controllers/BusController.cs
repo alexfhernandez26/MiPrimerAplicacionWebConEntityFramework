@@ -51,11 +51,19 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         [HttpPost]
         public ActionResult Agregar(BusCLS busCLS)
         {
-            if (!ModelState.IsValid)
+            string placa = busCLS.placa;
+            int repite = 0;
+            using (var bd = new BDPasajeEntities())
             {
-                TodosLosCombos();
-                return View(busCLS);
+                repite = bd.Bus.Where(p => p.PLACA.Equals(placa)).Count();
             }
+                if (!ModelState.IsValid || repite>=1)
+                {                   
+                    TodosLosCombos();
+
+                if (repite >= 1) busCLS.mensajeError = "El bus que esta intentando registrar ya esta registrado";
+                    return View(busCLS);
+                }
 
             using (var bd = new BDPasajeEntities())
             {
@@ -105,9 +113,18 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         {
             TodosLosCombos();
             Bus bus = new Bus();
-            if (!ModelState.IsValid)
+            int id = busCLS.iidbus;
+            string placa = busCLS.placa;
+            int repite = 0;
+            using (var bd = new BDPasajeEntities())
+            {
+                repite = bd.Bus.Where(p => p.PLACA.Equals(placa) && !p.IIDBUS.Equals(id)).Count();
+            }
+            if (!ModelState.IsValid || repite>=1)
             {
                 TodosLosCombos();
+                if (repite >= 1) busCLS.mensajeError = "El bus que esta intentando registrar ya esta registrado";
+
                 return View(busCLS);
             }
             using (var bd = new BDPasajeEntities())
