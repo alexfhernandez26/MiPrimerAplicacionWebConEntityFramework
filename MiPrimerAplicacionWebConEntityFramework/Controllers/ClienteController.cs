@@ -11,20 +11,40 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
     {
         // GET: Cliente
         List<ClienteCLS> listaCliente = null;
-        public ActionResult Index()
+        public ActionResult Index(ClienteCLS clienteCLS)
         {
+            llenarComboSexo();
+            int iidsexo = clienteCLS.IIDSEXO;
             using (var bd = new BDPasajeEntities())
             {
-                listaCliente = (from cliente in bd.Cliente
-                                where cliente.BHABILITADO ==1
-                              select new ClienteCLS                             
-                              {
-                                  iidCliente = cliente.IIDCLIENTE,
-                                  NOMBRE = cliente.NOMBRE,
-                                  APPATERNO = cliente.APPATERNO,
-                                  APMATERNO = cliente.APMATERNO,
-                                  TELEFONOCELULAR = cliente.TELEFONOCELULAR
-                              }).ToList();
+                if (iidsexo ==0)
+                {
+                    listaCliente = (from cliente in bd.Cliente
+                                    where cliente.BHABILITADO == 1
+                                    select new ClienteCLS
+                                    {
+                                        iidCliente = cliente.IIDCLIENTE,
+                                        NOMBRE = cliente.NOMBRE,
+                                        APPATERNO = cliente.APPATERNO,
+                                        APMATERNO = cliente.APMATERNO,
+                                        TELEFONOCELULAR = cliente.TELEFONOCELULAR
+                                    }).ToList();
+                }
+                else
+                {
+                    listaCliente = (from cliente in bd.Cliente
+                                    where cliente.BHABILITADO == 1
+                                    && cliente.IIDSEXO == iidsexo
+                                    select new ClienteCLS
+                                    {
+                                        iidCliente = cliente.IIDCLIENTE,
+                                        NOMBRE = cliente.NOMBRE,
+                                        APPATERNO = cliente.APPATERNO,
+                                        APMATERNO = cliente.APMATERNO,
+                                        TELEFONOCELULAR = cliente.TELEFONOCELULAR
+                                    }).ToList();
+                }
+                
             }
 
             return View(listaCliente);

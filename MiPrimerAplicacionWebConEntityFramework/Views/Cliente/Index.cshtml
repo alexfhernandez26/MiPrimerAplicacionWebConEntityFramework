@@ -2,45 +2,55 @@
 @model List<ClienteCLS>
 @{
     ViewBag.Title = "Index";
+    List<SelectListItem> listaSexo = (List<SelectListItem>)ViewBag.lista;
 }
 
 <h2>Index</h2>
 
 @Html.ActionLink("Agregar", "Agregar", null, new { @class = "btn btn-primary" })
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>@Html.LabelFor(p => Model[0].iidCliente)</th>
-            <th>@Html.LabelFor(p => Model[0].NOMBRE)</th>
-            <th>@Html.LabelFor(p => Model[0].APPATERNO)</th>
-            <th>@Html.LabelFor(p => Model[0].APMATERNO)</th>
-            <th>@Html.LabelFor(p => Model[0].TELEFONOCELULAR)</th>
-            <th>Operaciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+@using (Html.BeginForm("Index", "Cliente", FormMethod.Post))
+{
+    @Html.Label("Buscar Sexo : ")
+    @Html.DropDownList("IIDSEXO", listaSexo)
+    
+    <input type="submit" class="btn btn-success" value="Buscar" />
+
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
-
-                <td>@item.iidCliente</td>
-                <td>@item.NOMBRE</td>
-                <td>@item.APPATERNO</td>
-                <td>@item.APMATERNO</td>
-                <td>@item.TELEFONOCELULAR</td>
-                <td>
-                    @Html.ActionLink(" ", "Editar", "Cliente", new { id = @item.iidCliente }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                    <!-- Button trigger modal para eliminar -->
-                    <button type="button" onclick="mostrarPuppop(@item.iidCliente)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                    </button>
-                </td>
+                <th>@Html.LabelFor(p => Model[0].iidCliente)</th>
+                <th>@Html.LabelFor(p => Model[0].NOMBRE)</th>
+                <th>@Html.LabelFor(p => Model[0].APPATERNO)</th>
+                <th>@Html.LabelFor(p => Model[0].APMATERNO)</th>
+                <th>@Html.LabelFor(p => Model[0].TELEFONOCELULAR)</th>
+                <th>Operaciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-@using (Html.BeginForm("Eliminar", "Cliente",FormMethod.Post,new { @id="frmEliminar"}))
-{ 
+                    <td>@item.iidCliente</td>
+                    <td>@item.NOMBRE</td>
+                    <td>@item.APPATERNO</td>
+                    <td>@item.APMATERNO</td>
+                    <td>@item.TELEFONOCELULAR</td>
+                    <td>
+                        @Html.ActionLink(" ", "Editar", "Cliente", new { id = @item.iidCliente }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+                        <!-- Button trigger modal para eliminar -->
+                        <button type="button" onclick="mostrarPuppop(@item.iidCliente)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@using (Html.BeginForm("Eliminar", "Cliente", FormMethod.Post, new { @id = "frmEliminar" }))
+{
 
     @Html.Hidden("iidcliente");
 
