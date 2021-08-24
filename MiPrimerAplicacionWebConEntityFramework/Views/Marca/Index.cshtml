@@ -8,6 +8,11 @@
 @Html.ActionLink("Agregar", "Agregar", "Marca",new { @class = "btn btn-primary" })
 
 
+@using (Html.BeginForm("Index","Marca",FormMethod.Post))
+{
+       @Html.Label("Buscar Marca: ")
+       @Html.TextBox("nombre")
+       <input type="submit" class="btn btn-success" value="Buscar"/>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -35,7 +40,7 @@
         }
     </tbody>
 </table>
-
+}
 <script>
     function Eliminar(e){
         if (confirm("Desea Eliminar el registro?") == 1) {

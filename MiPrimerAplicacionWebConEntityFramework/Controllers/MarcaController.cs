@@ -10,19 +10,36 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
     public class MarcaController : Controller
     {
         // GET: Marca
-        public ActionResult Index()
+        public ActionResult Index(MarcaCLS marcaCLS)
         {
             List<MarcaCLS> listamarca = null;
+            string nombre = marcaCLS.nombre;
             using (var bd = new BDPasajeEntities())
             {
-                listamarca = (from marca in bd.Marca
-                              where marca.BHABILITADO==1
-                              select new MarcaCLS
-                              {
-                                  iidmarca = marca.IIDMARCA,
-                                  nombre = marca.NOMBRE,
-                                  descripcion = marca.DESCRIPCION
-                              }).ToList();
+                if (marcaCLS.nombre == null)
+                {
+                    listamarca = (from marca in bd.Marca
+                                  where marca.BHABILITADO == 1
+                                  select new MarcaCLS
+                                  {
+                                      iidmarca = marca.IIDMARCA,
+                                      nombre = marca.NOMBRE,
+                                      descripcion = marca.DESCRIPCION
+                                  }).ToList();
+                }
+                else
+                {
+                    listamarca = (from marca in bd.Marca
+                                  where marca.BHABILITADO == 1
+                                  && marca.NOMBRE.Contains(nombre)
+                                  select new MarcaCLS
+                                  {
+                                      iidmarca = marca.IIDMARCA,
+                                      nombre = marca.NOMBRE,
+                                      descripcion = marca.DESCRIPCION
+                                  }).ToList();
+                }
+               
             }
                 return View(listamarca);
         }
