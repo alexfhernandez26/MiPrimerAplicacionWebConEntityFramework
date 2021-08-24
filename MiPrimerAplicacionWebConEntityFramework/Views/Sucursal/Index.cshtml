@@ -6,6 +6,11 @@
 
 <h2>Index</h2>
 @Html.ActionLink("Agregar","Agregar",null,new {@class="btn btn-primary" })
+
+@using (Html.BeginForm("Index", "Sucursal", FormMethod.Post,new {@id="frmBuscar" }))
+{
+    @Html.Label("Buscar sucursal: ")
+    @Html.TextBox("nombre")
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -35,7 +40,7 @@
         }
     </tbody>
 </table>
-
+}
 <script>
     function Eliminar() {
         if (confirm("Desea Eliminar?")==1) {
@@ -43,5 +48,11 @@
         } else {
             event.preventDefault();
         }
+    }
+
+    var nombre = document.getElementById("nombre")
+    nombre.onkeyup = function () {
+        var frmbuscar = document.getElementById("frmBuscar")
+        frmbuscar.submit();
     }
 </script>
