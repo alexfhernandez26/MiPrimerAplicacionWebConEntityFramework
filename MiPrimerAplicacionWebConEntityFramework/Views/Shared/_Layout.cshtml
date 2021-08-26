@@ -25,7 +25,7 @@
                 @Html.ActionLink("Viaje", "Index", "Viaje", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Rol", "Index", "Rol", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-           
+
         </div>
     </div>
     <div class="container body-content">
@@ -35,7 +35,7 @@
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
         </footer>
     </div>
-
+    <!--Agregamos el <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script> para busqueda asincrona-->
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
