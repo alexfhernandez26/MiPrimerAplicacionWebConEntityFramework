@@ -6,44 +6,26 @@
 
 <h2>Index</h2>
 
-@Html.ActionLink("Agregar", "Agregar", "Rol", new { @class = "btn btn-primary" })
-<table class="table table-bordered table-hover">
+@using (Ajax.BeginForm("Filtro","",
+    new AjaxOptions
+    {
+        HttpMethod= "Post",
+        UpdateTargetId= "divTablaRol",
+        //Lo que hace es actualizar el parcial cada vez que consultemos InsertionMode = InsertionMode.Replace
+        InsertionMode = InsertionMode.Replace
+    },new {@id="frmFiltro" }))
+{
+    @Html.Label("Ingrese nombre rol: ")
+    @Html.TextBox("nombre", null, new { @class="form-control" })
+<div id="divTablaRol">
+    @Html.Partial("_tablaRol", Model)
+</div>
+    
+}
 
-    <thead>
-
-        <tr>
-
-            <th>@Html.LabelFor(p => Model[0].iidrol)</th>
-
-            <th>@Html.LabelFor(p => Model[0].nombre)</th>
-
-            <th>@Html.LabelFor(p => Model[0].descripcion)</th>
-
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-        @foreach (var item in Model)
-
-        {
-
-            <tr>
-
-
-
-                 <td>@item.iidrol</td>
-
-                 <td>@item.nombre</td>
-
-                <td>@item.descripcion</td>
-
-                 
-
-            </tr>
-        }
-
-    </tbody>
-
-</table> 
+<script>
+    var nombre = document.getElementById("nombre");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
+    }
+</script>

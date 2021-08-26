@@ -1,0 +1,43 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models
+@model List<RolCLS>
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+
+            <th>@Html.LabelFor(p => Model[0].iidrol)</th>
+
+            <th>@Html.LabelFor(p => Model[0].nombre)</th>
+
+            <th>@Html.LabelFor(p => Model[0].descripcion)</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+
+        {
+
+            <tr>
+
+
+
+                <td>@item.iidrol</td>
+
+                <td>@item.nombre</td>
+
+                <td>@item.descripcion</td>
+
+
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
