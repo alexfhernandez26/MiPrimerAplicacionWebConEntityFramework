@@ -133,7 +133,11 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\PaginaController.cs" />
+    <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
+    <Compile Include="Controllers\TipoUsuarioController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ViajeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -184,9 +188,11 @@
     <Compile Include="Models\Pagina.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PaginaCLS.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RolCLS.cs" />
     <Compile Include="Models\RolPagina.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
@@ -258,6 +264,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -295,9 +303,13 @@
     <Content Include="Views\Bus\Editar.cshtml" />
     <Content Include="Views\Viaje\Agregar.cshtml" />
     <Content Include="Views\Viaje\Editar.cshtml" />
+    <Content Include="Views\Rol\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Pagina\" />
+    <Folder Include="Views\TipoUsuario\" />
+    <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
