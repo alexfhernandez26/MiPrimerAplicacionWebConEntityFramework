@@ -8,6 +8,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
 {
     public class PaginaCLS
     {
+        [Key]
         public int iidpagina { get; set; }
         [Required]
         [Display(Name = "Mensaje")]

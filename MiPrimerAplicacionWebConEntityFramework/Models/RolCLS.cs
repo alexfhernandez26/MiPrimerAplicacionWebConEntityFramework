@@ -8,6 +8,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
 {
     public class RolCLS
     {
+        [Key]
         public int iidrol { get; set; }
         [Required]
         [Display(Name ="Nombre")]

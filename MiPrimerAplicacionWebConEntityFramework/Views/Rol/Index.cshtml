@@ -1,7 +1,49 @@
-﻿
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models
+@model List<RolCLS>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+@Html.ActionLink("Agregar", "Agregar", "Rol", new { @class = "btn btn-primary" })
+<table class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+
+            <th>@Html.LabelFor(p => Model[0].iidrol)</th>
+
+            <th>@Html.LabelFor(p => Model[0].nombre)</th>
+
+            <th>@Html.LabelFor(p => Model[0].descripcion)</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+
+        {
+
+            <tr>
+
+
+
+                 <td>@item.iidrol</td>
+
+                 <td>@item.nombre</td>
+
+                <td>@item.descripcion</td>
+
+                 
+
+            </tr>
+        }
+
+    </tbody>
+
+</table> 
