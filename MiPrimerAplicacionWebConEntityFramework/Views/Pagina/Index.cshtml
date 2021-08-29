@@ -1,0 +1,24 @@
+﻿@model List<MiPrimerAplicacionWebConEntityFramework.Models.PaginaCLS>
+
+
+@using (Ajax.BeginForm("Filtrar","Pagina",null,new AjaxOptions
+{
+    HttpMethod="Post",
+    UpdateTargetId="divPagina",
+    InsertionMode = InsertionMode.Replace
+},new {@id="frmFiltrar" }))
+{
+    @Html.Label("Ingrese mesaje: ")
+    @Html.TextBox("mensaje")
+    <input type="submit" value="Buscar" class="btn btn-primary"  />
+<div id="divPagina">
+    @Html.Partial("_tablaPagina", Model)
+</div>
+ }
+
+<script>
+    var frmFiltrar = document.getElementById("frmFiltrar");
+    frmFiltrar.onsubmit = function () {
+        $("#frmFiltrar").trigger("submit");
+    }
+</script>

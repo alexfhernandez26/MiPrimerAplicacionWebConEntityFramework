@@ -24,7 +24,7 @@ InsertionMode = InsertionMode.Replace
     @Html.Label("Ingrese nombre rol: ")
     @Html.TextBox("nombre", null, new { @class = "form-control" })
     <div id="divTablaRol">
-        @Html.Partial("_tablaRol", Model)
+        @Html.Partial("_tablaRol",Model)
     </div>
 
 }
@@ -87,9 +87,12 @@ InsertionMode = InsertionMode.Replace
             $("#frmFiltro").trigger("submit");
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
+            
         } else {
             alert("Error al guardar");
         }
     }
+
+
 </script>
 

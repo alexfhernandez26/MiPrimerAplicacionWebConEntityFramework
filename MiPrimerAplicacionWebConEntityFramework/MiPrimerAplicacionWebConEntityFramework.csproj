@@ -305,10 +305,11 @@
     <Content Include="Views\Viaje\Editar.cshtml" />
     <Content Include="Views\Rol\Index.cshtml" />
     <Content Include="Views\Rol\_tablaRol.cshtml" />
+    <Content Include="Views\Pagina\Index.cshtml" />
+    <Content Include="Views\Pagina\_tablaPagina.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Pagina\" />
     <Folder Include="Views\TipoUsuario\" />
     <Folder Include="Views\Usuario\" />
   </ItemGroup>
