@@ -65,5 +65,22 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             }
             return PartialView("_tablaPagina",listaPagina);
         }
+
+        public int Guardar(PaginaCLS paginaCLS, int titulo)
+        {
+            int resultado = 0;
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Pagina pagina = new Pagina();
+                pagina.MENSAJE = paginaCLS.mensaje;
+                pagina.ACCION = paginaCLS.accion;
+                pagina.CONTROLADOR = paginaCLS.controlador;
+                pagina.BHABILITADO = 1;
+                bd.Pagina.Add(pagina);
+             resultado =   bd.SaveChanges();
+            }
+                return resultado;
+        }
     }
 }

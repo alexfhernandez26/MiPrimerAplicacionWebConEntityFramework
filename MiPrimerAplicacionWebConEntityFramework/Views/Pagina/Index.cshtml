@@ -1,24 +1,94 @@
 ﻿@model List<MiPrimerAplicacionWebConEntityFramework.Models.PaginaCLS>
 
+<h2>Index</h2>
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Agregar
+</button>
 
-@using (Ajax.BeginForm("Filtrar","Pagina",null,new AjaxOptions
+@using (Ajax.BeginForm("Filtrar", "Pagina", null, new AjaxOptions
 {
-    HttpMethod="Post",
-    UpdateTargetId="divPagina",
+    HttpMethod = "Post",
+    UpdateTargetId = "divPagina",
     InsertionMode = InsertionMode.Replace
-},new {@id="frmFiltrar" }))
+}, new { @id = "frmFiltrar" }))
 {
     @Html.Label("Ingrese mesaje: ")
     @Html.TextBox("mensaje")
-    <input type="submit" value="Buscar" class="btn btn-primary"  />
-<div id="divPagina">
-    @Html.Partial("_tablaPagina", Model)
+
+    <div id="divPagina">
+        @Html.Partial("_tablaPagina", Model)
+    </div>
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Pagina</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("Guardar", "Pagina", null, new AjaxOptions
+            {
+                HttpMethod = "Post",
+                OnSuccess = "guardar"
+
+            }, new { @id = "frmGuardar" }))
+            {
+                @Html.Hidden("titulo")
+        <div class="modal-body">
+            <div>
+                @Html.Label("Id Pagina")
+                @Html.TextBox("iidpagina", null, new { @class = "form-control", @readOnly = "true" })
+            </div>
+            <div>
+                @Html.Label("Mensaje")
+                @Html.TextBox("mensaje", null, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Accion")
+                @Html.TextBox("accion", null, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Controlador")
+                @Html.TextBox("controlador", null, new { @class = "form-control" })
+            </div>
+
+        </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            }
+        </div>
+
+    </div>
 </div>
- }
 
 <script>
-    var frmFiltrar = document.getElementById("frmFiltrar");
-    frmFiltrar.onsubmit = function () {
+
+    var mensaje = document.getElementById("mensaje");
+    mensaje.onkeyup = function () {
         $("#frmFiltrar").trigger("submit");
+    }
+
+    function Agregar() {
+        document.getElementById("titulo").value = 1;
+    }
+
+    function guardar(resp) {
+
+        if (resp == 1) {
+            document.getElementById("btnClose").click();
+            alert("Datos guardados correctamente");
+            $("#frmFiltrar").trigger("submit");
+            
+        } else {
+            alert("Error al guardar");
+        }
     }
 </script>
