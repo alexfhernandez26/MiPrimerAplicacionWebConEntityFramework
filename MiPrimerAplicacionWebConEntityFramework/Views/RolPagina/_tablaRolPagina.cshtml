@@ -1,0 +1,34 @@
+﻿@model List<MiPrimerAplicacionWebConEntityFramework.Models.RolPaginaCLS>
+
+<table class="table table-hover table-bordered">
+    <tr>
+        <th width="10%">
+            @Html.LabelFor(model => model[0].iidrolpagina)
+        </th>
+        <th>
+            @Html.LabelFor(model => model[0].nombrerol)
+        </th>
+        <th>
+            @Html.LabelFor(model => model[0].nombrepagina)
+        </th>
+
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.iidrolpagina)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombrerol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombrepagina)
+            </td>
+
+        </tr>
+    }
+
+</table>

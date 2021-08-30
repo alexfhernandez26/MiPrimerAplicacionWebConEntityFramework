@@ -135,6 +135,7 @@
     <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\PaginaController.cs" />
     <Compile Include="Controllers\RolController.cs" />
+    <Compile Include="Controllers\RolPaginaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TipoUsuarioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Models\RolPagina.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RolPaginaCLS.cs" />
     <Compile Include="Models\Sexo.cs">
       <DependentUpon>BdPasajes.tt</DependentUpon>
     </Compile>
@@ -307,6 +309,8 @@
     <Content Include="Views\Rol\_tablaRol.cshtml" />
     <Content Include="Views\Pagina\Index.cshtml" />
     <Content Include="Views\Pagina\_tablaPagina.cshtml" />
+    <Content Include="Views\RolPagina\Index.cshtml" />
+    <Content Include="Views\RolPagina\_tablaRolPagina.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

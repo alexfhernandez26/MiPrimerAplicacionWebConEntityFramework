@@ -1,0 +1,29 @@
+﻿@model List<MiPrimerAplicacionWebConEntityFramework.Models.RolPaginaCLS>
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> listaRol = (List<SelectListItem>)ViewBag.listaRol;
+}
+
+<h2>Index</h2>
+
+@using (Ajax.BeginForm("Filtrar","RolPagina",null,new AjaxOptions
+{
+    HttpMethod="Post",
+    UpdateTargetId ="divPartial",
+    InsertionMode= InsertionMode.Replace
+},new {@id="frmFiltrar" }))
+{
+    @Html.DropDownList("iidrol", listaRol, new { @class = "form-control" })
+<div id="divPartial">
+    @Html.Partial("_tablaRolPagina", Model)
+</div>
+}
+
+
+<script>
+    var iidrol = document.getElementById("iidrol");
+    iidrol.onchange = function () {
+        $("#frmFiltrar").trigger("submit");
+    }
+</script>
