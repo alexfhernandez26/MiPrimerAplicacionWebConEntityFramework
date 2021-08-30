@@ -12,7 +12,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         // GET: RolPagina
         public ActionResult Index()
         {
-            llenarRolPagina();
+            llenarRol();
+            llenarPagina();
             List<RolPaginaCLS> listaRpagina = null;
             using (var bd = new BDPasajeEntities())
             {
@@ -73,7 +74,30 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 
             return PartialView("_tablaRolPagina",listaRpagina);
         }
-        public void llenarRolPagina()
+
+        public int Guardar(RolPaginaCLS rolPaginaCLS, int titulo)
+        {
+            
+            int respuesta = 0;
+
+            using (var bd = new BDPasajeEntities())
+            {
+                if (titulo ==1)
+                {
+                    RolPagina rolPagina = new RolPagina();
+                    rolPagina.IIDROL = rolPaginaCLS.iidrol;
+                    rolPagina.IIDPAGINA = rolPaginaCLS.iidpagina;
+                    rolPagina.BHABILITADO = 1;
+                    bd.RolPagina.Add(rolPagina);
+                  respuesta =  bd.SaveChanges();
+                }
+                
+
+            }
+
+                return respuesta;
+        }
+        public void llenarRol()
         {
             List<SelectListItem> listarolP = null;
             using (var bd = new BDPasajeEntities())
@@ -88,5 +112,21 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 ViewBag.listaRol = listarolP;
             }
         }
+        public void llenarPagina()
+        {
+            List<SelectListItem> listapagina = null;
+            using (var bd = new BDPasajeEntities())
+            {
+                listapagina = (from pagina in bd.Pagina
+                               select new SelectListItem
+                               {
+                                   Text = pagina.MENSAJE,
+                                   Value = pagina.IIDPAGINA.ToString()
+                               }).ToList();
+                listapagina.Insert(0, new SelectListItem { Text = "--Seleccione", Value = "" });
+                ViewBag.listapagina = listapagina;
+            }
+        }
+
     }
 }

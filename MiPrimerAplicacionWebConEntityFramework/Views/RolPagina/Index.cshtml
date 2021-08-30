@@ -3,27 +3,87 @@
 @{
     ViewBag.Title = "Index";
     List<SelectListItem> listaRol = (List<SelectListItem>)ViewBag.listaRol;
+    List<SelectListItem> listaPagina = (List<SelectListItem>)ViewBag.listapagina;
 }
 
 <h2>Index</h2>
+<!-- Button trigger modal -->
+<button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+   Agregar
+</button>
 
-@using (Ajax.BeginForm("Filtrar","RolPagina",null,new AjaxOptions
+@using (Ajax.BeginForm("Filtrar", "RolPagina", null, new AjaxOptions
 {
-    HttpMethod="Post",
-    UpdateTargetId ="divPartial",
-    InsertionMode= InsertionMode.Replace
-},new {@id="frmFiltrar" }))
+    HttpMethod = "Post",
+    UpdateTargetId = "divPartial",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltrar" }))
 {
     @Html.DropDownList("iidrol", listaRol, new { @class = "form-control" })
-<div id="divPartial">
-    @Html.Partial("_tablaRolPagina", Model)
-</div>
+    <div id="divPartial">
+        @Html.Partial("_tablaRolPagina", Model)
+    </div>
 }
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using(Ajax.BeginForm("Guardar", "RolPagina", null, new AjaxOptions
+            {
+                HttpMethod = "Post",
+            OnSuccess = "guardar"
+            }, new { @id = "frmGuardar" }))
+            
+            {
+            @Html.Hidden("titulo")
+            <div class="modal-body">
+                <div>
+                    @Html.Label("Id RolPagina")
+                    @Html.TextBox("iidrolpagina", null, new { @class = "form-control",@Readonly=true })
+                </div>
+                <div>
+                    @Html.Label("ID Rol")
+                    @Html.DropDownList("iidrol",listaRol, new { @class = "form-control" })
+                </div>
+                <div>
+                    @Html.Label("ID Pagina")
+                    @Html.DropDownList("iidpagina",listaPagina, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            }
+        </div>
+        
+    </div>
+</div>
 
 <script>
     var iidrol = document.getElementById("iidrol");
     iidrol.onchange = function () {
         $("#frmFiltrar").trigger("submit");
+    }
+
+    function Agregar() {
+        document.getElementById("titulo").value = 1;
+    }
+
+    function guardar(respuesta) {
+        if (respuesta ==1) {
+            $("#frmFiltrar").trigger("submit");
+            alert("Datos guardados correctamente");
+            document.getElementById("btnClose").click();
+        }
     }
 </script>
