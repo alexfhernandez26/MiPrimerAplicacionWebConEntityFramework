@@ -15,5 +15,6 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public int iidrol { get; set; }
         public int bhabilitado { get; set; }
 
+        public string nombrePersona { get; set; }
     }
 }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Transactions;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 {
@@ -72,6 +75,59 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             
         }
 
+        public int Guardar(UsuarioCLS usuarioCLS, int titulo)
+        {
+            //Aqui haremos una transaccion, porque vamos a aggregar a la tabla usuario un usuario y a cliente o empleado
+            //le vamos a hacer una actualizacion en el campo btieneusuario, haremos mas de una operacion en la bd
+            int respuesta = 0;
 
+            try { 
+             using (var bd = new BDPasajeEntities())
+             {
+                    using (var transaccion = new TransactionScope() ) {
+                        if (titulo == 1)
+                        {
+                            Usuario usuario = new Usuario();
+                            usuario.NOMBREUSUARIO = usuarioCLS.nombreusuario;
+          //Esta clase me va a permitir cifrar cualquier valor para cifrar el password debemos convertirlo a byte[]
+          //luego de cifrada la convertimos a string con BitConverter.ToString para insertar en la bd
+                            SHA256Managed sha = new SHA256Managed();
+                            byte[] contrabyte = Encoding.Default.GetBytes(usuarioCLS.contra);
+                            byte[] contrabyteHasheada =  sha.ComputeHash(contrabyte);
+                          string contraCadena =  BitConverter.ToString(contrabyteHasheada).Replace("-", "");
+
+                            usuario.CONTRA = contraCadena;
+                            usuario.TIPOUSUARIO = usuarioCLS.nombrePersona.Substring(usuarioCLS.nombrePersona.Length-2,1);
+                            usuario.IID = usuarioCLS.iid;
+                            usuario.IIDROL = usuarioCLS.iidrol;
+                            usuario.bhabilitado = 1;
+                            bd.Usuario.Add(usuario);
+
+                            if (usuario.TIPOUSUARIO.Equals("C"))
+                            {
+                                Cliente cliente = bd.Cliente.Where(p => p.IIDCLIENTE.Equals(usuarioCLS.iid)).First();
+                                cliente.bTieneUsuario = 1;
+
+                            }
+                            else
+                            {
+                                Empleado empleado = bd.Empleado.Where(p => p.IIDEMPLEADO.Equals(usuarioCLS.iid)).First();
+                                empleado.bTieneUsuario = 1;
+                            }
+                            respuesta = bd.SaveChanges();
+                            transaccion.Complete();
+                        }
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                
+                respuesta = 0;
+            }
+
+            return respuesta;
+        }
     }
 }
