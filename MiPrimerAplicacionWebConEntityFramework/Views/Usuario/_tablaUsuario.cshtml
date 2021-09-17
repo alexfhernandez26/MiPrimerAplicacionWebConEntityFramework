@@ -1,0 +1,39 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models
+@model List<UsuarioCLS>
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+
+            <th>@Html.LabelFor(p => Model[0].iidusuario)</th>
+            <th>@Html.LabelFor(p => Model[0].nombrePersona)</th>
+            <th>@Html.LabelFor(p => Model[0].nombreusuario)</th>
+            <th>@Html.LabelFor(p => Model[0].nombreRol)</th>
+            <th>@Html.LabelFor(p => Model[0].TipodeUsuario)</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+
+        {
+
+            <tr>
+
+                <td>@item.iidusuario</td>
+                <td>@item.nombrePersona</td>
+                <td>@item.nombreusuario</td>
+                <td>@item.nombreRol</td>
+                <td>@item.TipodeUsuario</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -1,6 +1,6 @@
 ﻿@using MiPrimerAplicacionWebConEntityFramework.Models
 @model List<UsuarioCLS>
-    
+
 @{
     ViewBag.Title = "Index";
     List<SelectListItem> listapersona = (List<SelectListItem>)ViewBag.listapersonas;
@@ -12,6 +12,20 @@
 <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Agregar
 </button>
+
+@using (Ajax.BeginForm("Filtro", "Usuario", null, new AjaxOptions
+{
+    HttpMethod = "Post",
+    UpdateTargetId = "divTablaUsuario",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmFiltro" }))
+{
+    @Html.TextBox("nombrePersona", null,new {@class="form-control" })
+    <div id="divTablaUsuario">
+        @Html.Partial("_tablaUsuario", Model)
+    </div>
+
+}
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -32,29 +46,29 @@
             {
                 @Html.Hidden("titulo")
                 @Html.Hidden("nombrePersona")
-        <div class="modal-body">
-            <div>
-                @Html.Label("ID Usuario")
-                @Html.TextBox("iidusuario ", null, new { @class = "form-control", @readOnly = "true" })
-            </div>
-            <div>
-                @Html.Label("Nombre Usuario")
-                @Html.TextBox("nombreusuario", null, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.Label("Contrasena")
-                @Html.Password("contra", null, new { @class = "form-control" })
-            </div>
+                <div class="modal-body">
+                    <div>
+                        @Html.Label("ID Usuario")
+                        @Html.TextBox("iidusuario ", null, new { @class = "form-control", @readOnly = "true" })
+                    </div>
+                    <div>
+                        @Html.Label("Nombre Usuario")
+                        @Html.TextBox("nombreusuario", null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Contrasena")
+                        @Html.Password("contra", null, new { @class = "form-control" })
+                    </div>
 
-            <div>
-                @Html.Label("Nombre persona")
-                @Html.DropDownList("iid",listapersona ,null, new { @class = "form-control" })
-            </div>
-            <div>
-                @Html.Label("Nombre Rol")
-                @Html.DropDownList("iidrol",listarol ,null, new { @class = "form-control" })
-            </div>
-        </div>
+                    <div>
+                        @Html.Label("Nombre persona")
+                        @Html.DropDownList("iid", listapersona, null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Nombre Rol")
+                        @Html.DropDownList("iidrol", listarol, null, new { @class = "form-control" })
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
@@ -76,11 +90,16 @@
     }
 
     function guardar(respt) {
-        if (respt == 1 || respt==2) {
+        if (respt == 1 || respt == 2) {
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
         } else {
             alert("Error al guardar");
         }
+    }
+
+    var nombre = document.getElementById("nombrePersona");
+    nombre.onkeyup = function () {
+        $("#frmFiltro").trigger("submit");
     }
 </script>

@@ -19,7 +19,47 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         {
             ListaPersonas();
             listaRol();
-            return View();
+
+            List<UsuarioCLS> listaUsuario = new List<UsuarioCLS>();
+            using (var bd = new BDPasajeEntities())
+            {
+                
+                List<UsuarioCLS> usuarioCliente = (from usuario in bd.Usuario
+                                                   join cliente in bd.Cliente
+                                                   on usuario.IID equals cliente.IIDCLIENTE
+                                                   join rol in bd.Rol
+                                                   on usuario.IIDROL equals rol.IIDROL
+                                                   where usuario.bhabilitado == 1
+                                                   && usuario.TIPOUSUARIO == "C"
+                                                   select new UsuarioCLS
+                                                   {
+                                                       iidusuario = usuario.IIDUSUARIO,
+                                                       nombrePersona = cliente.NOMBRE + " " + cliente.APPATERNO,
+                                                       nombreusuario = usuario.NOMBREUSUARIO,
+                                                       nombreRol = rol.NOMBRE,
+                                                       TipodeUsuario = "Cliente"
+                                                   }).ToList();
+
+                List<UsuarioCLS> usuarioEmpleado = (from usuario in bd.Usuario
+                                                   join empleado in bd.Empleado
+                                                   on usuario.IID equals empleado.IIDEMPLEADO
+                                                   join rol in bd.Rol
+                                                   on usuario.IIDROL equals rol.IIDROL
+                                                   where usuario.bhabilitado == 1
+                                                   && usuario.TIPOUSUARIO == "E"
+                                                   select new UsuarioCLS
+                                                   {
+                                                       iidusuario = usuario.IIDUSUARIO,
+                                                       nombrePersona = empleado.NOMBRE + " " + empleado.APPATERNO,
+                                                       nombreusuario = usuario.NOMBREUSUARIO,
+                                                       nombreRol = rol.NOMBRE,
+                                                       TipodeUsuario = "Empleado"
+                                                   }).ToList();
+                listaUsuario.AddRange(usuarioCliente);
+                listaUsuario.AddRange(usuarioEmpleado);
+                listaUsuario = listaUsuario.OrderBy(p => p.iidusuario).ToList();
+            }
+                return View(listaUsuario);
         }
 
         public void ListaPersonas()
@@ -128,6 +168,112 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             }
 
             return respuesta;
+        }
+
+     public ActionResult Filtro(UsuarioCLS usuarioCLS)
+        {
+            List<UsuarioCLS> listaUsuario = new List<UsuarioCLS>();
+            if (usuarioCLS.nombrePersona ==null)
+            {
+                ListaPersonas();
+                listaRol();
+
+                
+                using (var bd = new BDPasajeEntities())
+                {
+
+                    List<UsuarioCLS> usuarioCliente = (from usuario in bd.Usuario
+                                                       join cliente in bd.Cliente
+                                                       on usuario.IID equals cliente.IIDCLIENTE
+                                                       join rol in bd.Rol
+                                                       on usuario.IIDROL equals rol.IIDROL
+                                                       where usuario.bhabilitado == 1
+                                                       && usuario.TIPOUSUARIO == "C"
+                                                       select new UsuarioCLS
+                                                       {
+                                                           iidusuario = usuario.IIDUSUARIO,
+                                                           nombrePersona = cliente.NOMBRE + " " + cliente.APPATERNO,
+                                                           nombreusuario = usuario.NOMBREUSUARIO,
+                                                           nombreRol = rol.NOMBRE,
+                                                           TipodeUsuario = "Cliente"
+                                                       }).ToList();
+
+                    List<UsuarioCLS> usuarioEmpleado = (from usuario in bd.Usuario
+                                                        join empleado in bd.Empleado
+                                                        on usuario.IID equals empleado.IIDEMPLEADO
+                                                        join rol in bd.Rol
+                                                        on usuario.IIDROL equals rol.IIDROL
+                                                        where usuario.bhabilitado == 1
+                                                        && usuario.TIPOUSUARIO == "E"
+                                                        select new UsuarioCLS
+                                                        {
+                                                            iidusuario = usuario.IIDUSUARIO,
+                                                            nombrePersona = empleado.NOMBRE + " " + empleado.APPATERNO,
+                                                            nombreusuario = usuario.NOMBREUSUARIO,
+                                                            nombreRol = rol.NOMBRE,
+                                                            TipodeUsuario = "Empleado"
+                                                        }).ToList();
+                    listaUsuario.AddRange(usuarioCliente);
+                    listaUsuario.AddRange(usuarioEmpleado);
+                    listaUsuario = listaUsuario.OrderBy(p => p.iidusuario).ToList();
+                }
+            }
+            else
+            {
+                ListaPersonas();
+                listaRol();
+
+               
+                using (var bd = new BDPasajeEntities())
+                {
+
+                    List<UsuarioCLS> usuarioCliente = (from usuario in bd.Usuario
+                                                       join cliente in bd.Cliente
+                                                       on usuario.IID equals cliente.IIDCLIENTE
+                                                       join rol in bd.Rol
+                                                       on usuario.IIDROL equals rol.IIDROL
+                                                       where usuario.bhabilitado == 1
+                                                       && usuario.TIPOUSUARIO == "C"
+                                                       &&(
+                                                       cliente.NOMBRE.Contains(usuarioCLS.nombrePersona)
+                                                       || cliente.APPATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       || cliente.APMATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       )
+                                                       select new UsuarioCLS
+                                                       {
+                                                           iidusuario = usuario.IIDUSUARIO,
+                                                           nombrePersona = cliente.NOMBRE + " " + cliente.APPATERNO,
+                                                           nombreusuario = usuario.NOMBREUSUARIO,
+                                                           nombreRol = rol.NOMBRE,
+                                                           TipodeUsuario = "Cliente"
+                                                       }).ToList();
+
+                    List<UsuarioCLS> usuarioEmpleado = (from usuario in bd.Usuario
+                                                        join empleado in bd.Empleado
+                                                        on usuario.IID equals empleado.IIDEMPLEADO
+                                                        join rol in bd.Rol
+                                                        on usuario.IIDROL equals rol.IIDROL
+                                                        where usuario.bhabilitado == 1
+                                                        && usuario.TIPOUSUARIO == "E"
+                                                        && (
+                                                       empleado.NOMBRE.Contains(usuarioCLS.nombrePersona)
+                                                       || empleado.APPATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       || empleado.APMATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       )
+                                                        select new UsuarioCLS
+                                                        {
+                                                            iidusuario = usuario.IIDUSUARIO,
+                                                            nombrePersona = empleado.NOMBRE + " " + empleado.APPATERNO,
+                                                            nombreusuario = usuario.NOMBREUSUARIO,
+                                                            nombreRol = rol.NOMBRE,
+                                                            TipodeUsuario = "Empleado"
+                                                        }).ToList();
+                    listaUsuario.AddRange(usuarioCliente);
+                    listaUsuario.AddRange(usuarioEmpleado);
+                    listaUsuario = listaUsuario.OrderBy(p => p.iidusuario).ToList();
+                }
+            }
+                return PartialView("_tablaUsuario",listaUsuario);
         }
     }
 }
