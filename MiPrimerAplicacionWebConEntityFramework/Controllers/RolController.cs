@@ -27,13 +27,13 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 return View(listaRol);
         }
 
-        public ActionResult Filtro(string nombre)
+        public ActionResult Filtro(string nombreRol)
         {
             List<RolCLS> listaRol = null;
 
             using (var bd = new BDPasajeEntities())
             {
-                if (nombre == null)
+                if (nombreRol == null)
                 {
                     listaRol = (from rol in bd.Rol
                                 where rol.BHABILITADO == 1
@@ -48,7 +48,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 {
                     listaRol = (from rol in bd.Rol
                                 where rol.BHABILITADO == 1
-                                && rol.NOMBRE.Contains(nombre)
+                                && rol.NOMBRE.Contains(nombreRol)
                                 select new RolCLS
                                 {
                                     iidrol = rol.IIDROL,
@@ -91,13 +91,33 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                     bd.Rol.Add(rol);
                     //Si se guarda en la BD respuesta sera igual a 1, sino sera cero
                     respuesta = bd.SaveChanges().ToString();
-                   }
+                    }
+                    else
+                    {
+                        Rol rol = new Rol();
+                        rol = bd.Rol.Where(p => p.IIDROL == titulo).First();
+                        rol.NOMBRE = rolCLS.nombre;
+                        rol.DESCRIPCION = rolCLS.descripcion;
+                        respuesta = bd.SaveChanges().ToString();
+                    }
                    
                 }
             
           
                 return respuesta;
          }
+        }
+
+        public JsonResult RecuperarDatos(int titulo)
+        {
+            RolCLS rolCLS = new RolCLS();
+            using (var bd = new BDPasajeEntities())
+            {
+              Rol  rol = bd.Rol.Where(p => p.IIDROL == titulo).First();
+                rolCLS.nombre = rol.NOMBRE;
+                rolCLS.descripcion = rol.DESCRIPCION;
+            }
+                return Json(rolCLS,JsonRequestBehavior.AllowGet);
         }
     }
 }

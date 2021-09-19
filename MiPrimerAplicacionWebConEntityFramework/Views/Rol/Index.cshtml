@@ -22,7 +22,7 @@ InsertionMode = InsertionMode.Replace
     }, new { @id = "frmFiltro" }))
 {
     @Html.Label("Ingrese nombre rol: ")
-    @Html.TextBox("nombre", null, new { @class = "form-control" })
+    @Html.TextBox("nombreRol", null, new { @class = "form-control" })
     <div id="divTablaRol">
         @Html.Partial("_tablaRol",Model)
     </div>
@@ -79,6 +79,7 @@ InsertionMode = InsertionMode.Replace
     }
 
     function Agregar() {
+        document.getElementById("error").innerHTML = "";
         document.getElementById("titulo").value = -1;
     }
     function guardar(resp) {
@@ -93,7 +94,13 @@ InsertionMode = InsertionMode.Replace
     }
 
     function Editar(id) {
-        alert(id);
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("titulo").value = id;
+
+        $.get("Rol/RecuperarDatos/?titulo="+id, function (data) {
+            document.getElementById("nombre").value = data.nombre;
+            document.getElementById("descripcion").value = data.descripcion;
+        });
     }
 
 </script>
