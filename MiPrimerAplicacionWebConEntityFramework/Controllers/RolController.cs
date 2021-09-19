@@ -61,21 +61,43 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return PartialView("_tablaRol",listaRol);
         }
 
-        public int Guardar(RolCLS rolCLS, int titulo)
+        public string Guardar(RolCLS rolCLS, int titulo)
         {
-            int respuesta = 0;
-
-            using (var bd = new BDPasajeEntities())
+            string respuesta = "";
+            if (!ModelState.IsValid)
             {
-                Rol rol = new Rol();
-                rol.NOMBRE = rolCLS.nombre;
-                rol.DESCRIPCION = rolCLS.descripcion;
-                rol.BHABILITADO = 1;
-                bd.Rol.Add(rol);
-                //Si se guarda en la BD respuesta sera igual a 1, sino sera cero
-                respuesta=   bd.SaveChanges();
+                var query = (from state in ModelState.Values
+                             from error in state.Errors
+                             select error.ErrorMessage).ToList();
+                respuesta += "<ul class='list-group'>";
+                foreach (var item in query)
+                {
+                    respuesta += "<li class='list-group-item'>" + item + "</li>";
+    }
+
+              return  respuesta += "</ul>";
+
             }
+            else
+            {          
+                using (var bd = new BDPasajeEntities())
+                {
+                   if (titulo==-1)
+                   {
+                    Rol rol = new Rol();
+                    rol.NOMBRE = rolCLS.nombre;
+                    rol.DESCRIPCION = rolCLS.descripcion;
+                    rol.BHABILITADO = 1;
+                    bd.Rol.Add(rol);
+                    //Si se guarda en la BD respuesta sera igual a 1, sino sera cero
+                    respuesta = bd.SaveChanges().ToString();
+                   }
+                   
+                }
+            
+          
                 return respuesta;
+         }
         }
     }
 }

@@ -13,6 +13,8 @@
 
             <th>@Html.LabelFor(p => Model[0].descripcion)</th>
 
+            <th>Operaciones</th>
+
         </tr>
 
     </thead>
@@ -23,19 +25,24 @@
 
         {
 
-            <tr>
+        <tr>
 
 
 
-                <td>@item.iidrol</td>
+            <td>@item.iidrol</td>
 
-                <td>@item.nombre</td>
+            <td>@item.nombre</td>
 
-                <td>@item.descripcion</td>
+            <td>@item.descripcion</td>
+
+            <td>
+                <button type="button" onclick="Editar(@item.iidrol)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal">
+                  
+                </button>
+            </td>
 
 
-
-            </tr>
+        </tr>
         }
 
     </tbody>

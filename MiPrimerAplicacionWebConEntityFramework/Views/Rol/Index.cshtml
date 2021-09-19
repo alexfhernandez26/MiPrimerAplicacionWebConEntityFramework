@@ -43,16 +43,14 @@ InsertionMode = InsertionMode.Replace
             </div>
             @using (Ajax.BeginForm("Guardar","Rol",null,new AjaxOptions {
                 HttpMethod="Post",
-                OnSuccess="guardar"
+                OnSuccess="guardar",
+                UpdateTargetId="error"
 
             },new {@id="frmGuardar" }))
             {
                 @Html.Hidden("titulo")
             <div class="modal-body">
-                <div>
-                    @Html.Label("Id Rol")
-                    @Html.TextBox("iidrol", null, new { @class = "form-control",@readOnly="true" })
-                </div>
+            
                 <div>
                     @Html.Label("Nombre")
                     @Html.TextBox("nombre", null, new { @class = "form-control" })
@@ -68,6 +66,7 @@ InsertionMode = InsertionMode.Replace
                 <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
             }
+            <div id="error"></div>
         </div>
             
     </div>
@@ -80,10 +79,10 @@ InsertionMode = InsertionMode.Replace
     }
 
     function Agregar() {
-        document.getElementById("titulo").value = 1;
+        document.getElementById("titulo").value = -1;
     }
     function guardar(resp) {
-        if (resp == 1) {
+        if (resp == "1") {
             $("#frmFiltro").trigger("submit");
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
@@ -93,6 +92,9 @@ InsertionMode = InsertionMode.Replace
         }
     }
 
+    function Editar(id) {
+        alert(id);
+    }
 
 </script>
 
