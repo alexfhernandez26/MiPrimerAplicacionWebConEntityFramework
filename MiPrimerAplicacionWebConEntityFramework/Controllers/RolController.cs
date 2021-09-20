@@ -91,6 +91,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                     bd.Rol.Add(rol);
                     //Si se guarda en la BD respuesta sera igual a 1, sino sera cero
                     respuesta = bd.SaveChanges().ToString();
+                        if (respuesta == "0") respuesta = "";
                     }
                     else
                     {

@@ -79,11 +79,12 @@ InsertionMode = InsertionMode.Replace
     }
 
     function Agregar() {
-        document.getElementById("error").innerHTML = "";
+        Limpiar();
+        
         document.getElementById("titulo").value = -1;
     }
     function guardar(resp) {
-        if (resp == "1") {
+        if (resp == "1" || resp=="0") {
             $("#frmFiltro").trigger("submit");
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
@@ -94,6 +95,7 @@ InsertionMode = InsertionMode.Replace
     }
 
     function Editar(id) {
+        Limpiar();
         document.getElementById("error").innerHTML = "";
         document.getElementById("titulo").value = id;
 
@@ -103,5 +105,10 @@ InsertionMode = InsertionMode.Replace
         });
     }
 
+    function Limpiar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("error").innerHTML = "";
+    }
 </script>
 
