@@ -21,5 +21,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public string controlador { get; set; }
 
         public int bhabilitado { get; set; }
+
+        //popiedades adicionales
+        public string mensajePagina { get; set; }
     }
 }

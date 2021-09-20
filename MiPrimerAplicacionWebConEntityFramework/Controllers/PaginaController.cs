@@ -35,7 +35,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 
             using (var bd = new BDPasajeEntities())
             {
-                if (paginaCLS.mensaje ==null)
+                if (paginaCLS.mensajePagina ==null)
                 {
                     listaPagina = (from pagina in bd.Pagina
                                    where pagina.BHABILITADO == 1
@@ -52,7 +52,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 {
                     listaPagina = (from pagina in bd.Pagina
                                    where pagina.BHABILITADO == 1
-                                   && pagina.MENSAJE.Contains(paginaCLS.mensaje)
+                                   && pagina.MENSAJE.Contains(paginaCLS.mensajePagina)
                                    select new PaginaCLS
                                    {
                                        iidpagina = pagina.IIDPAGINA,
@@ -66,21 +66,69 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return PartialView("_tablaPagina",listaPagina);
         }
 
-        public int Guardar(PaginaCLS paginaCLS, int titulo)
+        public string Guardar(PaginaCLS paginaCLS, int titulo)
         {
-            int resultado = 0;
+            string resultado = "";
+            if (!ModelState.IsValid)
+            {
 
+
+            
+                var query = (from state in ModelState.Values
+                             from error in state.Errors
+                             select error.ErrorMessage).ToList();
+                resultado += "<ul class='list-group'>";
+                foreach (var item in query)
+                {
+                    resultado += "<li class='list-group-item'>" + item + "</li>";
+                }
+
+                return resultado += "</ul>";
+
+            }
+            else
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    if (titulo == -1)
+                    {
+                        Pagina pagina = new Pagina();
+                        pagina.MENSAJE = paginaCLS.mensaje;
+                        pagina.ACCION = paginaCLS.accion;
+                        pagina.CONTROLADOR = paginaCLS.controlador;
+                        pagina.BHABILITADO = 1;
+                        bd.Pagina.Add(pagina);
+                        resultado = bd.SaveChanges().ToString();
+                        if (resultado == "0") resultado = "";
+                    }
+                    else
+                    {
+                        Pagina pagina = bd.Pagina.Where(p => p.IIDPAGINA.Equals(titulo)).First();
+                        pagina.MENSAJE = paginaCLS.mensaje;
+                        pagina.ACCION = paginaCLS.accion;
+                        pagina.CONTROLADOR = paginaCLS.controlador;
+
+                        resultado = bd.SaveChanges().ToString();
+                    }
+
+                }
+            }
+
+            
+                return resultado;
+        }
+
+        public JsonResult RecuperarDatos(int titulo)
+        {
+            PaginaCLS paginaCLS = new PaginaCLS();
             using (var bd = new BDPasajeEntities())
             {
-                Pagina pagina = new Pagina();
-                pagina.MENSAJE = paginaCLS.mensaje;
-                pagina.ACCION = paginaCLS.accion;
-                pagina.CONTROLADOR = paginaCLS.controlador;
-                pagina.BHABILITADO = 1;
-                bd.Pagina.Add(pagina);
-             resultado =   bd.SaveChanges();
+                Pagina pagina = bd.Pagina.Where(p => p.IIDPAGINA.Equals(titulo)).First();
+                paginaCLS.mensaje = pagina.MENSAJE;
+                paginaCLS.accion = pagina.ACCION;
+                paginaCLS.controlador = pagina.CONTROLADOR;
             }
-                return resultado;
+                return Json(paginaCLS,JsonRequestBehavior.AllowGet);
         }
     }
 }
