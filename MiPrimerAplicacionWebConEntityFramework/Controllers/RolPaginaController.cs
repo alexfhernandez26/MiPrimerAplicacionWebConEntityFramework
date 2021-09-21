@@ -33,13 +33,13 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 return View(listaRpagina);
         }
 
-        public ActionResult Filtrar(RolPaginaCLS rolPaginaCLS)
+        public ActionResult Filtrar(int? iidrolFiltro)
         {
             List<RolPaginaCLS> listaRpagina = null;
             using (var bd = new BDPasajeEntities())
             {
                 
-                if (rolPaginaCLS.iidrol == 0)
+                if (iidrolFiltro == null)
                 {
                     listaRpagina = (from rolpagina in bd.RolPagina
                                     join rol in bd.Rol
@@ -62,7 +62,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                     join pagina in bd.Pagina
                                     on rolpagina.IIDPAGINA equals pagina.IIDPAGINA
                                     where rolpagina.BHABILITADO == 1
-                                    && rol.IIDROL.Equals(rolPaginaCLS.iidrol)
+                                    && rolpagina.IIDROL == iidrolFiltro
                                     select new RolPaginaCLS
                                     {
                                         iidrolpagina = rolpagina.IIDROLPAGINA,
@@ -75,27 +75,64 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             return PartialView("_tablaRolPagina",listaRpagina);
         }
 
-        public int Guardar(RolPaginaCLS rolPaginaCLS, int titulo)
+        public string Guardar(RolPaginaCLS rolPaginaCLS, int titulo)
         {
             
-            int respuesta = 0;
+            string respuesta = "";
+            if (!ModelState.IsValid)
+            {
+                var query = (from state in ModelState.Values
+                             from error in state.Errors
+                             select error.ErrorMessage).ToList();
+                respuesta += "<ul class='list-group'>";
+                foreach (var item in query)
+                {
+                    respuesta += "<li class='list-group-item'>" + item + "</li>";
+                }
 
+                return respuesta += "</ul>";
+            }
+            else
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    if (titulo == -1)
+                    {
+                        RolPagina rolPagina = new RolPagina();
+                        rolPagina.IIDROL = rolPaginaCLS.iidrol;
+                        rolPagina.IIDPAGINA = rolPaginaCLS.iidpagina;
+                        rolPagina.BHABILITADO = 1;
+                        bd.RolPagina.Add(rolPagina);
+                        respuesta = bd.SaveChanges().ToString();
+                    }
+                    else
+                    {
+                        RolPagina rolpagina = bd.RolPagina.Where(p => p.IIDROLPAGINA.Equals(titulo)).First();
+                        rolpagina.IIDROL = rolPaginaCLS.iidrol;
+                        rolpagina.IIDPAGINA = rolPaginaCLS.iidpagina;
+                        respuesta = bd.SaveChanges().ToString();
+                     }
+
+
+                }
+            }
+               
+
+                return respuesta;
+        }
+
+        public JsonResult RecuperarDatos(int parametro)
+        {
+            RolPaginaCLS rolPaginaCLS = new RolPaginaCLS();
             using (var bd = new BDPasajeEntities())
             {
-                if (titulo ==1)
-                {
-                    RolPagina rolPagina = new RolPagina();
-                    rolPagina.IIDROL = rolPaginaCLS.iidrol;
-                    rolPagina.IIDPAGINA = rolPaginaCLS.iidpagina;
-                    rolPagina.BHABILITADO = 1;
-                    bd.RolPagina.Add(rolPagina);
-                  respuesta =  bd.SaveChanges();
-                }
-                
+                RolPagina rolPagina = bd.RolPagina.Where(p => p.IIDROLPAGINA.Equals(parametro)).First();
+                rolPaginaCLS.iidrol = (int)rolPagina.IIDROL;
+                rolPaginaCLS.iidpagina = (int)rolPagina.IIDPAGINA;
 
             }
 
-                return respuesta;
+                return Json(rolPaginaCLS,JsonRequestBehavior.AllowGet);
         }
         public void llenarRol()
         {

@@ -11,24 +11,32 @@
         <th>
             @Html.LabelFor(model => model[0].nombrepagina)
         </th>
+        <th>
+            Operaciones
+        </th>
 
 
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.iidrolpagina)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombrerol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombrepagina)
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.iidrolpagina)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.nombrerol)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.nombrepagina)
+    </td>
+    <td>
+        <button type="button" onclick="Editar(@item.iidrolpagina)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal">
+            
+        </button>
+    </td>
 
-        </tr>
+</tr>
     }
 
 </table>
