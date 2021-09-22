@@ -24,7 +24,7 @@ InsertionMode = InsertionMode.Replace
     @Html.Label("Ingrese nombre rol: ")
     @Html.TextBox("nombreRol", null, new { @class = "form-control" })
     <div id="divTablaRol">
-        @Html.Partial("_tablaRol",Model)
+        @Html.Partial("_tablaRol", Model)
     </div>
 
 }
@@ -41,54 +41,75 @@ InsertionMode = InsertionMode.Replace
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Ajax.BeginForm("Guardar","Rol",null,new AjaxOptions {
-                HttpMethod="Post",
-                OnSuccess="guardar",
-                UpdateTargetId="error"
+            @using (Ajax.BeginForm("Guardar", "Rol", null, new AjaxOptions
+            {
+                HttpMethod = "Post",
+                OnSuccess = "guardar",
+                UpdateTargetId = "error"
 
-            },new {@id="frmGuardar" }))
+            }, new { @id = "frmGuardar" }))
             {
                 @Html.Hidden("titulo")
-            <div class="modal-body">
-            
-                <div>
-                    @Html.Label("Nombre")
-                    @Html.TextBox("nombre", null, new { @class = "form-control" })
-                </div>
-                <div>
-                    @Html.Label("Descripcion")
-                    @Html.TextBox("descripcion", null, new { @class = "form-control" })
-                </div>
+                <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
+                    <div>
+                        @Html.Label("Nombre")
+                        @Html.TextBox("nombre", null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Descripcion")
+                        @Html.TextBox("descripcion", null, new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
             }
             <div id="error"></div>
         </div>
+
+    </div>
+</div>
+
+<!--Modal de confirmacion para eliminar-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Eliminar ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             
+            <div class="modal-footer">
+                <button type="button" id="btnCerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" onclick="EliminarRegistro()" class="btn btn-primary">Eliminar</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    var nombre = document.getElementById("nombre");
+    var nombre = document.getElementById("nombreRol");
     nombre.onkeyup = function () {
         $("#frmFiltro").trigger("submit");
     }
 
     function Agregar() {
         Limpiar();
-        
+
         document.getElementById("titulo").value = -1;
     }
     function guardar(resp) {
-        if (resp == "1" || resp=="0") {
+        if (resp == "1" || resp == "0") {
             $("#frmFiltro").trigger("submit");
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
-            
+
         } else {
             alert("Error al guardar");
         }
@@ -99,7 +120,7 @@ InsertionMode = InsertionMode.Replace
         document.getElementById("error").innerHTML = "";
         document.getElementById("titulo").value = id;
 
-        $.get("Rol/RecuperarDatos/?titulo="+id, function (data) {
+        $.get("Rol/RecuperarDatos/?titulo=" + id, function (data) {
             document.getElementById("nombre").value = data.nombre;
             document.getElementById("descripcion").value = data.descripcion;
         });
@@ -109,6 +130,22 @@ InsertionMode = InsertionMode.Replace
         document.getElementById("nombre").value = "";
         document.getElementById("descripcion").value = "";
         document.getElementById("error").innerHTML = "";
+    }
+
+    function Eliminar(idEliminar) {
+        document.getElementById("titulo").value = idEliminar;
+    }
+
+    function EliminarRegistro() {
+        var iiid = document.getElementById("titulo").value;
+
+        $.get("Rol/Eliminar/?iidrol=" + iiid, function (data) {
+            if (data == 1) {
+                alert("Se elimino el registro exitosamente");
+                $("#frmFiltro").trigger("submit");
+                document.getElementById("btnCerrar").click();
+            }
+        })
     }
 </script>
 

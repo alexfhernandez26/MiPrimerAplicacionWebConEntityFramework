@@ -120,5 +120,20 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             }
                 return Json(rolCLS,JsonRequestBehavior.AllowGet);
         }
+
+        public string Eliminar(RolCLS rolCLS)
+        {
+            string respt = "";
+
+            using (var bd = new BDPasajeEntities())
+            {
+                Rol rol = bd.Rol.Where(p => p.IIDROL == rolCLS.iidrol).First();
+                rol.BHABILITADO = 0;
+                respt = bd.SaveChanges().ToString();
+            }
+
+
+                return respt;
+        }
     }
 }
