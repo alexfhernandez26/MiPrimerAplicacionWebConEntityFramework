@@ -1,40 +1,95 @@
 ﻿@using MiPrimerAplicacionWebConEntityFramework.Models;
 @model List<ViajeCLS>
-@{
-    ViewBag.Title = "Index";
-}
+@{ ViewBag.Title = "Index";
+    List<SelectListItem> listaviajelugar = (List<SelectListItem>)ViewBag.viaje;
+    List<SelectListItem> listaBus = (List<SelectListItem>)ViewBag.bus;
+ }
 
 <h2>Index</h2>
 
-@Html.ActionLink("Agregar", "Agregar", "Viaje", new { @class = "btn btn-primary" })
+<button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Agregar
+</button>
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>@Html.LabelFor(p => Model[0].iidviaje)</th>
-            <th>@Html.LabelFor(p => Model[0].NombrelugarOrigen)</th>
-            <th>@Html.LabelFor(p => Model[0].NombrelugarDestino)</th>
-            <th>@Html.LabelFor(p => Model[0].fechaViaje)</th>
-            <th>@Html.LabelFor(p => Model[0].nombreBus)</th>
-            <th>Operaciones</th>
+<div id="divPartial">
+    @Html.Partial("_tablaViaje", Model)
+</div>
+<!--Modal para agragar un viaje-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("Guardar", "Viaje", null, new AjaxOptions
+            {
+                HttpMethod = "Post",
+                OnSuccess = "guardar",
+                UpdateTargetId = "error"
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
+            }, new { @id = "frmGuardar" }))
+            {
+                @Html.Hidden("titulo")
+        <div class="modal-body">
 
-            <td>@item.iidviaje</td>
-            <td>@item.NombrelugarOrigen</td>
-            <td>@item.NombrelugarDestino</td>
-            <td>@item.fechaViaje</td>
-            <td>@item.nombreBus</td>
-            <td>
-                @Html.ActionLink(" ", "Editar", "Viaje", new { id = @item.iidviaje }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                @Html.ActionLink(" ", "Eliminar", "Viaje", new { id = @item.iidviaje }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+            <div>
+                @Html.Label("Lugar Origen: ")
+                @Html.DropDownList("iidlugarorigen", listaviajelugar, null, new { @class = "form-control" })
+            </div>
+
+            <div>
+                @Html.Label("Lugar Destino: ")
+                @Html.DropDownList("iidlugardestino", listaviajelugar, null, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.Label("Precio: ")
+                @Html.Editor("precio",null,new { htmlAttributes = new { @class="form-control", @type="number" }})
+            </div>
+            <div>
+                @Html.Label("Bus: ")
+                @Html.DropDownList("iidbus", listaBus, null, new { @class = "form-control" })
+            </div>
+            
+            <img width="150" height="150" id="idImg" style="display:block"/>
+            @Html.TextBox("foto",null,new {type="file", id="fotoTextbox" })
+            <div>
+                @Html.Hidden("nombreFoto")
+            </div>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            }
+            <div id="error"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    function Agregar() {
+        document.getElementById("titulo").value = -1;
+    }
+    var idImg = document.getElementById("idImg");
+    var fotoTextbox = document.getElementById("fotoTextbox");
+
+    fotoTextbox.onchange = function () {
+
+        var files = fotoTextbox.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            idImg.src = reader.result;
+            document.getElementById("nombreFoto").value = files.name;
+        }
+
+        reader.readAsDataURL(files);
+    }
+ 
+</script>

@@ -1,0 +1,36 @@
+﻿@using MiPrimerAplicacionWebConEntityFramework.Models;
+@model List<ViajeCLS>
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(p => Model[0].iidviaje)</th>
+            <th>@Html.LabelFor(p => Model[0].NombrelugarOrigen)</th>
+            <th>@Html.LabelFor(p => Model[0].NombrelugarDestino)</th>
+            <th>@Html.LabelFor(p => Model[0].fechaViaje)</th>
+            <th>@Html.LabelFor(p => Model[0].nombreBus)</th>
+            <th>Operaciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>@item.iidviaje</td>
+            <td>@item.NombrelugarOrigen</td>
+            <td>@item.NombrelugarDestino</td>
+            <td>@item.fechaViaje</td>
+            <td>@item.nombreBus</td>
+            <td>
+                <button type="button" onclick="Editar(@item.iidviaje)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal">
+                </button>
+                <button type="button" onclick="Eliminar(@item.iidviaje)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#exampleModalDelete">
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

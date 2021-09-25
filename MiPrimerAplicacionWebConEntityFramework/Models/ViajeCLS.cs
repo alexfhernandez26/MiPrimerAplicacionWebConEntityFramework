@@ -41,6 +41,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         [Display(Name = "Nombre de Bus")]
         public string nombreBus { get; set; }
 
+        public string nombreFoto { get; set; }
+
 
     }
 }

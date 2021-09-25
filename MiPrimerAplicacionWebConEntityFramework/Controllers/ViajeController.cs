@@ -13,6 +13,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         List<ViajeCLS> listaViaje = null;
         public ActionResult Index()
         {
+            llenarComboBus();
+            llenarComboViaje();
             using (var bd = new BDPasajeEntities())
             {
                 listaViaje = (from viaje in bd.Viaje
