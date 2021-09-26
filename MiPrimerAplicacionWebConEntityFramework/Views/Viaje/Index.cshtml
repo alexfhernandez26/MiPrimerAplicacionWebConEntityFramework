@@ -12,7 +12,21 @@
 </button>
 
 <div id="divPartial">
-    @Html.Partial("_tablaViaje", Model)
+    @using (Ajax.BeginForm("Filtrar", "Viaje", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "divFiltro",
+        InsertionMode = InsertionMode.Replace
+
+    }, new { @id = "frmFiltrar" }))
+    {
+
+        @Html.DropDownList("lugardestinoFiltro", listaviajelugar, null, new { @class = "form-control" })
+        <div id="divFiltro">
+            @Html.Partial("_tablaViaje", Model)
+        </div>
+    }
+
 </div>
 <!--Modal para agragar un viaje-->
 <!-- Modal -->
@@ -31,7 +45,7 @@
                 OnSuccess = "guardar",
                 UpdateTargetId = "error"
 
-            }, new { @id = "frmGuardar" }))
+            }, new { enctype="multipart/form-data" }))
             {
                 @Html.Hidden("titulo")
         <div class="modal-body">
@@ -48,15 +62,23 @@
             </div>
             <div>
                 @Html.Label("Precio: ")
-                @Html.Editor("precio",null,new { htmlAttributes = new { @class="form-control", @type="number" }})
+                @Html.Editor("precio", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            </div>
+            <div>
+                @Html.Label("Fecha: ")
+                @Html.Editor("fechaViaje", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
             </div>
             <div>
                 @Html.Label("Bus: ")
                 @Html.DropDownList("iidbus", listaBus, null, new { @class = "form-control" })
             </div>
-            
-            <img width="150" height="150" id="idImg" style="display:block"/>
-            @Html.TextBox("foto",null,new {type="file", id="fotoTextbox" })
+            <div>
+                @Html.Label("Asientos Disponibles: ")
+                @Html.Editor("numeroAsientosDisponibles", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            </div>
+
+            <img width="150" height="150" id="idImg" style="display:block" />
+            @Html.TextBox("foto", null, new { type = "file", id = "fotoTextbox" })
             <div>
                 @Html.Hidden("nombreFoto")
             </div>
@@ -77,6 +99,23 @@
     function Agregar() {
         document.getElementById("titulo").value = -1;
     }
+
+    function Editar(idviaje) {
+
+        $.get("Viaje/RecuperarInformacion/?idrecuerar=" + idviaje, function (data) {
+
+        })
+    }
+
+    function guardar(respuesta) {
+        if (respuesta == "1") {
+            $("#frmFiltrar").trigger("submit");
+            alert("Datos guardados correctamente");
+            document.getElementById("btnClose").click();
+        } else {
+
+        }
+    }
     var idImg = document.getElementById("idImg");
     var fotoTextbox = document.getElementById("fotoTextbox");
 
@@ -91,5 +130,11 @@
 
         reader.readAsDataURL(files);
     }
- 
+
+    var frmFiltrar = document.getElementById("frmFiltrar");
+    var lugardestinoFiltro = document.getElementById("lugardestinoFiltro");
+
+    lugardestinoFiltro.onchange = function () {
+        $("#frmFiltrar").trigger("submit");
+    }
 </script>
