@@ -42,6 +42,11 @@ namespace MiPrimerAplicacionWebConEntityFramework.Models
         public string nombreBus { get; set; }
 
         public string nombreFoto { get; set; }
+        public string extencion { get; set; }
+        public string recuperarFotoCadena { get; set; }
+
+        public string recuperarFechaCadena { get; set; }
+
 
 
     }

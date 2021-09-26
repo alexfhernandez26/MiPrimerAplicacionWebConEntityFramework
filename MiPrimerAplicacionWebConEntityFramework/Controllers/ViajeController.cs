@@ -69,7 +69,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
             }
             return RedirectToAction("index");
         }
-
+/*
         public ActionResult Editar(int id)
         {
             llenarComboViaje();
@@ -111,7 +111,8 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 bd.SaveChanges();
             }
             return RedirectToAction("Index");
-        }
+        
+        */
         public void llenarComboViaje()
         {
             List<SelectListItem> llenarViaje = null;
@@ -242,6 +243,43 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 }
             }
                 return PartialView("_tablaViaje",listaViaje);
+        }
+
+        public JsonResult RecuperarInformacion(int idrecuperar)
+        {
+            ViajeCLS viajeCLS = new ViajeCLS();
+            try
+            {
+                using (var bd = new BDPasajeEntities())
+                {
+                    Viaje viaje = bd.Viaje.Where(p => p.IIDVIAJE.Equals(idrecuperar)).First();
+                    viajeCLS.iidviaje = (int)viaje.IIDVIAJE;
+                    viajeCLS.iidlugarorigen = (int)viaje.IIDLUGARORIGEN;
+                    viajeCLS.iidlugardestino = (int)viaje.IIDLUGARDESTINO;
+                    viajeCLS.precio = (int)viaje.PRECIO;
+                    //pide (anio-mes-dia)
+                    //la bd manda (dia-mes-anio)
+                    viajeCLS.recuperarFechaCadena = ((DateTime)viaje.FECHAVIAJE).ToString("yyyy-MM-dd");
+                    viajeCLS.iidbus = (int)viaje.IIDBUS;
+                    viajeCLS.numeroAsientosDisponibles = (int)viaje.NUMEROASIENTOSDISPONIBLES;
+                    viajeCLS.nombreFoto = viaje.nombrefoto;
+
+                    //recuperando foto
+                    //para mostrar la foto primero necesitamos la extencion de la foto, osea el nombre  Path.GetExtension(viaje.nombrefoto)
+                    //lo segundo es recuperar la foto que esta en byte[], debemos convertirla a base64 para recuperarla y mostrarla,
+                    //para recuperarla debemos pasarla como base64String, estamos pasando la foto de byte convertida a ;base64,
+                    viajeCLS.extencion = Path.GetExtension(viaje.nombrefoto);
+                    viajeCLS.recuperarFotoCadena = Convert.ToBase64String(viaje.FOTO);
+                }
+
+                return Json(viajeCLS, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

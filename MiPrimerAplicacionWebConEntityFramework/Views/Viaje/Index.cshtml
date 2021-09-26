@@ -98,12 +98,21 @@
 
     function Agregar() {
         document.getElementById("titulo").value = -1;
+        Limpiar();
     }
 
     function Editar(idviaje) {
-
-        $.get("Viaje/RecuperarInformacion/?idrecuerar=" + idviaje, function (data) {
-
+        Limpiar();
+        $.get("Viaje/RecuperarInformacion/?idrecuperar=" + idviaje, function (data) {
+            document.getElementById("iidlugarorigen").value = data.iidlugarorigen;
+            document.getElementById("iidlugardestino").value = data.iidlugardestino;
+            document.getElementById("precio").value = data.precio;
+            document.getElementById("fechaViaje").value = data.recuperarFechaCadena;
+            document.getElementById("iidbus").value = data.iidbus;
+            document.getElementById("numeroAsientosDisponibles").value = data.numeroAsientosDisponibles;
+            document.getElementById("nombreFoto").value = data.nombreFoto;
+            //Recuperando la imagen para mostrarla en el <IMG>
+            document.getElementById("idImg").src = "data:image/"+data.extencion+";base64,"+data.recuperarFotoCadena;
         })
     }
 
@@ -136,5 +145,14 @@
 
     lugardestinoFiltro.onchange = function () {
         $("#frmFiltrar").trigger("submit");
+    }
+
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control")
+
+        for (var i = 0; i < controles.length; i++) {
+            controles[i].value = "";
+        }
+        document.getElementById("idImg").src = "";
     }
 </script>
