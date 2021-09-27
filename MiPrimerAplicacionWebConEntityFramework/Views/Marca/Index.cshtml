@@ -6,7 +6,7 @@
 
 <h2>Index</h2>
 @Html.ActionLink("Agregar", "Agregar", "Marca", new { @class = "btn btn-primary" })
-@Html.ActionLink("PDF", "verPDF", "Marca", new { @class = "btn btn-primary" })
+@Html.ActionLink("PDF", "verPDF", "Marca", new { @class = "btn btn-primary",@target="_blanck" })
 
 @using (Html.BeginForm("Index", "Marca", FormMethod.Post))
 {

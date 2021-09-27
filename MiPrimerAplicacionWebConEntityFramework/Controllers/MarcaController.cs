@@ -48,6 +48,15 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 celda3.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                 tabla.AddCell(celda3);
 
+                //Agregando la informacion a las columnas
+                List<MarcaCLS> listaPDF = (List<MarcaCLS>)Session["lista"];
+                int numeroRegistros = listaPDF.Count();
+                for (int i = 0; i < numeroRegistros; i++)
+                {
+                    tabla.AddCell(listaPDF[i].iidmarca.ToString());
+                    tabla.AddCell(listaPDF[i].nombre);
+                    tabla.AddCell(listaPDF[i].descripcion);
+                }
                 doc.Add(tabla);
                 doc.Close();
 
@@ -73,6 +82,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                       nombre = marca.NOMBRE,
                                       descripcion = marca.DESCRIPCION
                                   }).ToList();
+                    Session["lista"] = listamarca;
                 }
                 else
                 {
@@ -85,6 +95,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                       nombre = marca.NOMBRE,
                                       descripcion = marca.DESCRIPCION
                                   }).ToList();
+                    Session["lista"] = listamarca;
                 }
                
             }
