@@ -11,6 +11,7 @@
     Agregar
 </button>
 
+
 <div id="divPartial">
     @using (Ajax.BeginForm("Filtrar", "Viaje", null, new AjaxOptions
     {
@@ -95,7 +96,7 @@
 </div>
 
 
-    <!--Modal para eliminar-->
+<!--Modal para eliminar-->
 <div class="modal fade" id="exampleModaldelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -150,7 +151,7 @@
     function Eliminar(idviaje) {
         document.getElementById("titulo").value = idviaje;
     }
-    
+
     function ConfirmaEliminar() {
         var id = document.getElementById("titulo").value;
         $.get("Viaje/Eliminar/?idElimina=" + id, function (data) {

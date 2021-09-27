@@ -1,4 +1,6 @@
-﻿using MiPrimerAplicacionWebConEntityFramework.Models;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using MiPrimerAplicacionWebConEntityFramework.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +12,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 {
     public class ViajeController : Controller
     {
+        
         // GET: Viaje
         List<ViajeCLS> listaViaje = null;
         public ActionResult Index()

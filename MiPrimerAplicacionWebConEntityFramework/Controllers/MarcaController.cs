@@ -1,6 +1,9 @@
-﻿using MiPrimerAplicacionWebConEntityFramework.Models;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using MiPrimerAplicacionWebConEntityFramework.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +12,50 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 {
     public class MarcaController : Controller
     {
+        public FileResult verPDF()
+        {
+            byte[] buffer;
+            Document doc = new Document();
+            using (MemoryStream memorys = new MemoryStream())
+            {
+                PdfWriter.GetInstance(doc, memorys);
+                doc.Open();
+
+                Paragraph titulo = new Paragraph("Listas Marcas");
+                titulo.Alignment = Element.ALIGN_CENTER;
+                Paragraph espacio = new Paragraph(" ");
+                doc.Add(titulo);
+                doc.Add(espacio);
+
+                //creando la tabla,luego debemos crear la celda
+                PdfPTable tabla = new PdfPTable(3);
+                float[] anchotabla = new float[3] { 30, 50, 80 };
+                tabla.SetWidths(anchotabla);
+
+                //Creando las celdas
+                PdfPCell celda1 = new PdfPCell(new Phrase("Id Marca"));
+                celda1.BackgroundColor =new  BaseColor(130,130,130);
+                celda1.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                tabla.AddCell(celda1);
+
+                PdfPCell celda2 = new PdfPCell(new Phrase("Nombre"));
+                celda2.BackgroundColor = new BaseColor(130, 130, 130);
+                celda2.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                tabla.AddCell(celda2);
+
+                PdfPCell celda3 = new PdfPCell(new Phrase("Descripcion"));
+                celda3.BackgroundColor = new BaseColor(130, 130, 130);
+                celda3.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
+                tabla.AddCell(celda3);
+
+                doc.Add(tabla);
+                doc.Close();
+
+                buffer = memorys.ToArray();
+            }
+
+            return File(buffer,"application/pdf");
+        }
         // GET: Marca
         public ActionResult Index(MarcaCLS marcaCLS)
         {

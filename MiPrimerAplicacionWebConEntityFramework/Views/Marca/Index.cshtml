@@ -5,44 +5,44 @@
 }
 
 <h2>Index</h2>
-@Html.ActionLink("Agregar", "Agregar", "Marca",new { @class = "btn btn-primary" })
+@Html.ActionLink("Agregar", "Agregar", "Marca", new { @class = "btn btn-primary" })
+@Html.ActionLink("PDF", "verPDF", "Marca", new { @class = "btn btn-primary" })
 
-
-@using (Html.BeginForm("Index","Marca",FormMethod.Post))
+@using (Html.BeginForm("Index", "Marca", FormMethod.Post))
 {
-       @Html.Label("Buscar Marca: ")
-       @Html.TextBox("nombre")
-       <input type="submit" class="btn btn-success" value="Buscar"/>
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>@Html.LabelFor(p => Model[0].iidmarca)</th>
-            <th>@Html.LabelFor(p => Model[0].nombre)</th>
-            <th>@Html.LabelFor(p => Model[0].descripcion)</th>
-            <th>
-                Operaciones
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    @Html.Label("Buscar Marca: ")
+    @Html.TextBox("nombre")
+    <input type="submit" class="btn btn-success" value="Buscar" />
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
-
-                <td>@item.iidmarca</td>
-                <td>@item.nombre</td>               
-                <td>@item.descripcion</td>
-                <td>
-                    @Html.ActionLink(" ", "Editar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
-                    @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick="Eliminar()" })
-                </td>
+                <th>@Html.LabelFor(p => Model[0].iidmarca)</th>
+                <th>@Html.LabelFor(p => Model[0].nombre)</th>
+                <th>@Html.LabelFor(p => Model[0].descripcion)</th>
+                <th>
+                    Operaciones
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.iidmarca</td>
+                    <td>@item.nombre</td>
+                    <td>@item.descripcion</td>
+                    <td>
+                        @Html.ActionLink(" ", "Editar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-pencil btn btn-primary" })
+                        @Html.ActionLink(" ", "Eliminar", "Marca", new { id = @item.iidmarca }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick = "Eliminar()" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 <script>
-    function Eliminar(e){
+    function Eliminar(e) {
         if (confirm("Desea Eliminar el registro?") == 1) {
             alert("Registro eliminado")
         } else {
