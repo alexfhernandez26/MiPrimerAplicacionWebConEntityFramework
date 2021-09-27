@@ -176,18 +176,35 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 fotobd = lectofoto.ReadBytes((int)foto.ContentLength) ;
                 using (var bd = new BDPasajeEntities())
                 {
-                    Viaje viaje = new Viaje();
-                    viaje.IIDLUGARORIGEN = viajeCLS.iidlugarorigen;
-                    viaje.IIDLUGARDESTINO = viajeCLS.iidlugardestino;
-                    viaje.PRECIO = viajeCLS.precio;
-                    viaje.FECHAVIAJE = viajeCLS.fechaViaje;
-                    viaje.IIDBUS = viajeCLS.iidbus;
-                    viaje.NUMEROASIENTOSDISPONIBLES = viajeCLS.numeroAsientosDisponibles;
-                    viaje.BHABILITADO = 1;
-                    viaje.FOTO = fotobd;
-                    viaje.nombrefoto = viajeCLS.nombreFoto;
-                    bd.Viaje.Add(viaje);
-                 mensaje =   bd.SaveChanges().ToString();
+                    if (titulo == -1)
+                    {
+                        Viaje viaje = new Viaje();
+                        viaje.IIDLUGARORIGEN = viajeCLS.iidlugarorigen;
+                        viaje.IIDLUGARDESTINO = viajeCLS.iidlugardestino;
+                        viaje.PRECIO = viajeCLS.precio;
+                        viaje.FECHAVIAJE = viajeCLS.fechaViaje;
+                        viaje.IIDBUS = viajeCLS.iidbus;
+                        viaje.NUMEROASIENTOSDISPONIBLES = viajeCLS.numeroAsientosDisponibles;
+                        viaje.BHABILITADO = 1;
+                        viaje.FOTO = fotobd;
+                        viaje.nombrefoto = viajeCLS.nombreFoto;
+                        bd.Viaje.Add(viaje);
+                        mensaje = bd.SaveChanges().ToString();
+                    }
+                    else
+                    {
+                        Viaje viaje = bd.Viaje.Where(p => p.IIDVIAJE == titulo).First();
+                        viaje.IIDLUGARORIGEN = viajeCLS.iidlugarorigen;
+                        viaje.IIDLUGARDESTINO = viajeCLS.iidlugardestino;
+                        viaje.PRECIO = viajeCLS.precio;
+                        viaje.FECHAVIAJE = viajeCLS.fechaViaje;
+                        viaje.IIDBUS = viajeCLS.iidbus;
+                        viaje.NUMEROASIENTOSDISPONIBLES = viajeCLS.numeroAsientosDisponibles;
+                        viaje.FOTO = fotobd;
+                        viaje.nombrefoto = viajeCLS.nombreFoto;
+                        mensaje = bd.SaveChanges().ToString();
+                    }
+                    
                 }
             }
 
@@ -280,6 +297,19 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 throw;
             }
             
+        }
+
+        public int Eliminar(int idElimina)
+        {
+            int respuesta = 0;
+            using (var bd = new BDPasajeEntities())
+            {
+                Viaje viaje = bd.Viaje.Where(p => p.IIDVIAJE == idElimina).First();
+                viaje.BHABILITADO = 0;
+                 respuesta= bd.SaveChanges();
+            }
+
+                return respuesta;
         }
     }
 }
