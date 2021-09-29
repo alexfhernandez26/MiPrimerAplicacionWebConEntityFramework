@@ -1,8 +1,10 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MiPrimerAplicacionWebConEntityFramework.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,6 +14,66 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
 {
     public class MarcaController : Controller
     {
+
+        //Para trabajar con excel se trabaja con 2 clases principales; ExcelPackage y  ExcelWorkSheet, y descargando de nuget 
+        //la libreria EPPlus que es la libreria principal para trabajar con excel.
+
+        public FileResult generarExcel()
+        {
+            
+            byte[] buffer;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Creamos el archivo
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                ExcelPackage ep = new ExcelPackage();
+
+                //Le añadimos los 'worksheets' que necesitemos. worksheets significa hojas de trabajo
+                ep.Workbook.Worksheets.Add("Reporte excel");
+
+                //Creamos un objecto tipo ExcelWorksheet para
+                //manejarlo facilmente.
+                //ep.Workbook.Worksheets[1]; con esto le estamos diciendo que estamos haciendo referencia a ep.Workbook.Worksheets.Add("Reporte excel");
+                ExcelWorksheet ew = ep.Workbook.Worksheets[0];
+
+                //Definiendo valor de una celda
+                ew.Cells[1,1].Value = "ID Marca";
+                ew.Cells[1,2].Value = "Nombre";
+                ew.Cells[1,3].Value = "Descripcion";
+                ew.Column(1).Width = 40;
+                ew.Column(2).Width = 80;
+                ew.Column(3).Width = 160;
+
+                using (var range = ew.Cells[1, 1, 1, 3])
+                {
+                    range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //color de letra
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    //color de fondo
+                    range.Style.Fill.BackgroundColor.SetColor(Color.Red );
+
+                }
+                //Llenando las celdas con los datos
+                List<MarcaCLS> listaExcel = (List<MarcaCLS>)Session["lista"];
+                    int numeroRegistros = listaExcel.Count();
+
+                    for (int i = 0; i < numeroRegistros; i++)
+                    {
+                    ew.Cells[i + 2, 1].Value = listaExcel[i].iidmarca;
+                    ew.Cells[i + 2, 2].Value = listaExcel[i].nombre;
+                    ew.Cells[i + 2, 3].Value = listaExcel[i].descripcion;
+                }
+
+                //Guardamos el excelPackage en el MemoryStream
+                
+                ep.SaveAs(ms);
+                    buffer = ms.ToArray();
+                
+            }
+
+                return File(buffer, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
         public FileResult verPDF()
         {
             byte[] buffer;
