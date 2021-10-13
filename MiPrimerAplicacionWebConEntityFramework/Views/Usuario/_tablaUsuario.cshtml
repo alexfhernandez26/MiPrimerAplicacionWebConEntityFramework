@@ -12,7 +12,7 @@
             <th>@Html.LabelFor(p => Model[0].nombreusuario)</th>
             <th>@Html.LabelFor(p => Model[0].nombreRol)</th>
             <th>@Html.LabelFor(p => Model[0].TipodeUsuario)</th>
-
+            <th>Operaciones</th>
         </tr>
 
     </thead>
@@ -23,15 +23,20 @@
 
         {
 
-            <tr>
+        <tr>
 
-                <td>@item.iidusuario</td>
-                <td>@item.nombrePersona</td>
-                <td>@item.nombreusuario</td>
-                <td>@item.nombreRol</td>
-                <td>@item.TipodeUsuario</td>
-
-            </tr>
+            <td>@item.iidusuario</td>
+            <td>@item.nombrePersona</td>
+            <td>@item.nombreusuario</td>
+            <td>@item.nombreRol</td>
+            <td>@item.TipodeUsuario</td>
+            <td>
+                <button type="button" onclick="Editar(@item.iidusuario)" class="btn btn-primary glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal">
+                </button>
+                <button type="button" onclick="Eliminar(@item.iidusuario)" class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#exampleModalDelete">
+                </button>
+            </td>
+        </tr>
         }
 
     </tbody>

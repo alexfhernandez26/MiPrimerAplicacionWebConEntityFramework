@@ -119,14 +119,20 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
         {
             //Aqui haremos una transaccion, porque vamos a aggregar a la tabla usuario un usuario y a cliente o empleado
             //le vamos a hacer una actualizacion en el campo btieneusuario, haremos mas de una operacion en la bd
-            int respuesta = 0;
-
+            int respuesta = 1;
+            int existe = 0;
             try { 
              using (var bd = new BDPasajeEntities())
              {
                     using (var transaccion = new TransactionScope() ) {
-                        if (titulo == 1)
+                        if (titulo == -1)
                         {
+                            existe = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuarioCLS.nombreusuario).Count();
+                            if (existe >=1)
+                            {
+                                respuesta = -100;
+                            }
+                            else { 
                             Usuario usuario = new Usuario();
                             usuario.NOMBREUSUARIO = usuarioCLS.nombreusuario;
           //Esta clase me va a permitir cifrar cualquier valor para cifrar el password debemos convertirlo a byte[]
@@ -156,6 +162,25 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                             }
                             respuesta = bd.SaveChanges();
                             transaccion.Complete();
+                            }
+                        }
+                        else
+                        {
+                            existe = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuarioCLS.nombreusuario && 
+                            p.IIDUSUARIO != usuarioCLS.iidusuario).Count();
+                            if (existe >= 1)
+                            {
+                                respuesta = -100;
+                            }
+                            else
+                            {
+                                Usuario usuario = bd.Usuario.Where(p => p.IIDUSUARIO == titulo).First();
+                                usuario.NOMBREUSUARIO = usuarioCLS.nombreusuario;
+                                usuario.IIDROL = usuarioCLS.iidrol;
+                                respuesta = bd.SaveChanges();
+                                transaccion.Complete();
+                            }
+                           
                         }
 
                     }
@@ -173,7 +198,7 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
      public ActionResult Filtro(UsuarioCLS usuarioCLS)
         {
             List<UsuarioCLS> listaUsuario = new List<UsuarioCLS>();
-            if (usuarioCLS.nombrePersona ==null)
+            if (usuarioCLS.nombrePersonaBuqueda ==null)
             {
                 ListaPersonas();
                 listaRol();
@@ -235,9 +260,9 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                                        where usuario.bhabilitado == 1
                                                        && usuario.TIPOUSUARIO == "C"
                                                        &&(
-                                                       cliente.NOMBRE.Contains(usuarioCLS.nombrePersona)
-                                                       || cliente.APPATERNO.Contains(usuarioCLS.nombrePersona)
-                                                       || cliente.APMATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       cliente.NOMBRE.Contains(usuarioCLS.nombrePersonaBuqueda)
+                                                       || cliente.APPATERNO.Contains(usuarioCLS.nombrePersonaBuqueda)
+                                                       || cliente.APMATERNO.Contains(usuarioCLS.nombrePersonaBuqueda)
                                                        )
                                                        select new UsuarioCLS
                                                        {
@@ -256,9 +281,9 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                                                         where usuario.bhabilitado == 1
                                                         && usuario.TIPOUSUARIO == "E"
                                                         && (
-                                                       empleado.NOMBRE.Contains(usuarioCLS.nombrePersona)
-                                                       || empleado.APPATERNO.Contains(usuarioCLS.nombrePersona)
-                                                       || empleado.APMATERNO.Contains(usuarioCLS.nombrePersona)
+                                                       empleado.NOMBRE.Contains(usuarioCLS.nombrePersonaBuqueda)
+                                                       || empleado.APPATERNO.Contains(usuarioCLS.nombrePersonaBuqueda)
+                                                       || empleado.APMATERNO.Contains(usuarioCLS.nombrePersonaBuqueda)
                                                        )
                                                         select new UsuarioCLS
                                                         {
@@ -274,6 +299,30 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 }
             }
                 return PartialView("_tablaUsuario",listaUsuario);
+        }
+
+        public JsonResult RecuperarInformacion(int iidusuario)
+        {
+            UsuarioCLS usuarioCLS = new UsuarioCLS();
+            using (var bd = new BDPasajeEntities())
+            {
+                Usuario usuario = bd.Usuario.Where(p => p.IIDUSUARIO == iidusuario).First();
+                usuarioCLS.nombreusuario = usuario.NOMBREUSUARIO;
+                usuarioCLS.iidrol = (int)usuario.IIDROL;
+            }
+                return Json(usuarioCLS,JsonRequestBehavior.AllowGet);
+        }
+
+        public int EliminarRegistro(int iidusuario)
+        {
+            int respuesta = 0;
+            using (var bd = new BDPasajeEntities())
+            {
+                Usuario usuario = bd.Usuario.Where(p => p.IIDUSUARIO == iidusuario).First();
+               usuario.bhabilitado = 0;
+                respuesta = bd.SaveChanges();
+            }
+            return respuesta;
         }
     }
 }

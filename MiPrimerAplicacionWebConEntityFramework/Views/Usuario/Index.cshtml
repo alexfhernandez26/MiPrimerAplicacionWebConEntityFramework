@@ -20,7 +20,7 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltro" }))
 {
-    @Html.TextBox("nombrePersona", null,new {@class="form-control" })
+    @Html.TextBox("nombrePersona", null, new { @class = "form-control" })
     <div id="divTablaUsuario">
         @Html.Partial("_tablaUsuario", Model)
     </div>
@@ -45,7 +45,7 @@
             }, new { @id = "frmGuardar" }))
             {
                 @Html.Hidden("titulo")
-                @Html.Hidden("nombrePersona")
+                @Html.Hidden("nombrePersonaBuqueda")
                 <div class="modal-body">
                     <div>
                         @Html.Label("ID Usuario")
@@ -55,16 +55,16 @@
                         @Html.Label("Nombre Usuario")
                         @Html.TextBox("nombreusuario", null, new { @class = "form-control" })
                     </div>
-                    <div>
+                    <div id="divContra">
                         @Html.Label("Contrasena")
                         @Html.Password("contra", null, new { @class = "form-control" })
                     </div>
 
-                    <div>
+                    <div id="divIid">
                         @Html.Label("Nombre persona")
                         @Html.DropDownList("iid", listapersona, null, new { @class = "form-control" })
                     </div>
-                    <div>
+                    <div >
                         @Html.Label("Nombre Rol")
                         @Html.DropDownList("iidrol", listarol, null, new { @class = "form-control" })
                     </div>
@@ -79,9 +79,34 @@
     </div>
 </div>
 
+
+<!--Modal de confirmacion para eliminar-->
+
+<div class="modal fade" id="exampleModalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Desea Eliminar ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnCerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" onclick="EliminarRegistro()" class="btn btn-primary">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function Agregar() {
-        document.getElementById("titulo").value = 1;
+        Limpiar();
+        document.getElementById("divIid").style.display = "block";
+        document.getElementById("divContra").style.display = "block";
+        document.getElementById("titulo").value = -1;
     }
     var iid = document.getElementById("iid");
     iid.onchange = function () {
@@ -91,15 +116,58 @@
 
     function guardar(respt) {
         if (respt == 1 || respt == 2) {
+            $("#frmFiltro").trigger("submit");
             alert("Datos guardados correctamente");
             document.getElementById("btnClose").click();
-        } else {
+
+        } else
+        if (respt==-100) {
+            alert("El nombreUsuario ya existe");
+        }
+        else {
             alert("Error al guardar");
         }
     }
 
+    function Editar(idUsuario) {
+        Limpiar();
+        document.getElementById("titulo").value = idUsuario;
+        document.getElementById("divIid").style.display = "none";
+        document.getElementById("divContra").style.display = "none";
+        $.get("Usuario/RecuperarInformacion/?iidusuario=" + idUsuario, function (data)
+        {
+            document.getElementById("nombreusuario").value = data.nombreusuario;
+            document.getElementById("iidrol").value = data.iidrol;
+        })
+    }
     var nombre = document.getElementById("nombrePersona");
     nombre.onkeyup = function () {
         $("#frmFiltro").trigger("submit");
+    }
+
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control")
+        for (var i = 0; i < controles.length; i++) {
+            controles[i].value = "";
+        }
+       
+    }
+
+    function Eliminar(id) {
+        document.getElementById("titulo").value = id;
+    }
+
+    function EliminarRegistro() {
+        var id = document.getElementById("titulo").value;
+
+        $.get("Usuario/EliminarRegistro/?iidusuario=" + id, function (data) {
+            if (data == 1) {
+                $("#frmFiltro").trigger("submit");
+                alert("Registro eliminado exitosamente.");
+                document.getElementById("btnCerrar").click();
+            } else {
+                alert("Error al eliminar");
+            }
+        });
     }
 </script>
