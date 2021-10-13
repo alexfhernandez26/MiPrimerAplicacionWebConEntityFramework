@@ -20,7 +20,7 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmFiltro" }))
 {
-    @Html.TextBox("nombrePersona", null, new { @class = "form-control" })
+    @Html.TextBox("nombrePersonaBuqueda", null, new { @class = "form-control" })
     <div id="divTablaUsuario">
         @Html.Partial("_tablaUsuario", Model)
     </div>
@@ -45,7 +45,7 @@
             }, new { @id = "frmGuardar" }))
             {
                 @Html.Hidden("titulo")
-                @Html.Hidden("nombrePersonaBuqueda")
+                @Html.Hidden("nombrePersona")
                 <div class="modal-body">
                     <div>
                         @Html.Label("ID Usuario")
@@ -140,7 +140,7 @@
             document.getElementById("iidrol").value = data.iidrol;
         })
     }
-    var nombre = document.getElementById("nombrePersona");
+    var nombre = document.getElementById("nombrePersonaBuqueda");
     nombre.onkeyup = function () {
         $("#frmFiltro").trigger("submit");
     }
