@@ -51,6 +51,10 @@ namespace MiPrimerAplicacionWebConEntityFramework.Controllers
                 {
                     respuesta = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCadena).Count().ToString();
                     if (respuesta == "0") respuesta = "Usuario o contrasena incorrecta";
+                    else
+                    {
+                        Session["Usuario"] = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCadena).Count().ToString();
+                    }
                 }
             }
             return respuesta;
